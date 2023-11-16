@@ -174,10 +174,10 @@ async function main() {
 
   await prisma.loot.upsert({
     where: { name: "Megaloambystoma Horn" },
-    update: {},
+    update: { image: "/i/026000/026038.png" },
     create: {
       name: "Megaloambystoma Horn",
-      image: "/i/068000/068257.png",
+      image: "/i/026000/026038.png",
       typeId: 17,
     },
   });
@@ -212,6 +212,7 @@ async function main() {
     await prisma.fight.upsert({
       where: { name: data.Results[i].Name },
       update: {
+        floor: i + 1,
         loots: {
           connect: lootIds.map((id) => ({ id })),
         },
@@ -219,6 +220,7 @@ async function main() {
       create: {
         name: data.Results[i].Name,
         tierId: 1,
+        floor: i + 1,
         loots: {
           connect: lootIds.map((id) => ({ id })),
         },

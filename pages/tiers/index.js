@@ -39,13 +39,20 @@ export default function Tier() {
       <h1 className="text-center text-2xl">Raid Tiers</h1>
       <div className="h-screen">
         {tiers.map(({ id, name, fights }) => (
-          <div key={id} className="grid-flow-col">
-            <p>{name}</p>
-            {fights.map(({ id, name }) => (
-              <Link href="/raids/[slug]" as={`/raids/${id}`} className="mx-3">
-                {name}
-              </Link>
-            ))}
+          <div key={id} className="mb-4">
+            <p className="text-lg font-bold mb-2">{name}</p>
+            <div className="grid grid-cols-2 gap-4">
+              {fights.map(({ id, name }) => (
+                <Link
+                  key={id}
+                  href="/raids/[slug]"
+                  as={`/raids/${id}`}
+                  className="p-2 border rounded hover:bg-gray-100"
+                >
+                  {name}
+                </Link>
+              ))}
+            </div>
           </div>
         ))}
       </div>

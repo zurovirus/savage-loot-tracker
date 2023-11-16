@@ -114,6 +114,13 @@ async function main() {
       name: "Tomestone",
     },
   });
+  await prisma.loot_Type.upsert({
+    where: { name: "Mount" },
+    update: {},
+    create: {
+      name: "Mount",
+    },
+  });
   response = await fetch("https://xivapi.com/Item?page=404");
   data = await response.json();
   for (let i = 0; i < data.Results.length; i++) {
@@ -141,6 +148,32 @@ async function main() {
     }
   }
 
+  response = await fetch("https://xivapi.com/Item?page=402");
+  data = await response.json();
+
+  for (let i = 0; i < data.Results.length; i++) {
+    if (data.Results[i].ID > 40164 && data.Results[i].ID < 40184) {
+      await prisma.loot.upsert({
+        where: { name: data.Results[i].Name },
+        update: { typeId: 2 },
+        create: {
+          name: data.Results[i].Name,
+          image: data.Results[i].Icon,
+          typeId: 2,
+        },
+      });
+    }
+  }
+
+  await prisma.loot.upsert({
+    where: { name: "Megaloambystoma Horn" },
+    update: {},
+    create: {
+      name: "Megaloambystoma Horn",
+      image: "/i/068000/068257.png",
+      typeId: 17,
+    },
+  });
   await prisma.tier.upsert({
     where: { name: "Anabaseios Savage (P9S-P12S)" },
     update: {},
@@ -161,7 +194,7 @@ async function main() {
     [11, 12, 13, 14, 1],
     [6, 8, 10, 19, 18, 2],
     [7, 9, 16, 17, 3],
-    [5, 4],
+    [5, 4, 18],
   ];
 
   for (let i = 0; i < data.Results.length; i++) {
@@ -182,8 +215,78 @@ async function main() {
       },
     });
   }
-}
 
+  roleArray = ["Tank", "Healer", "DPS"];
+  for (let i = 0; i < roleArray.length; i++) {
+    await prisma.role.upsert({
+      where: { name: roleArray[i] },
+      update: {},
+      create: {
+        name: roleArray[i],
+      },
+    });
+  }
+  tanks = [
+    { name: "Paladin", role: 1 },
+    { name: "Warrior", role: 1 },
+    { name: "Dark Knight", role: 1 },
+    { name: "Gunbreaker", role: 1 },
+  ];
+
+  healers = [
+    { name: "White Mage", role: 2 },
+    { name: "Scholar", role: 2 },
+    { name: "Astrologian", role: 2 },
+    { name: "Sage", role: 2 },
+  ];
+
+  dps = [
+    { name: "Monk", role: 3 },
+    { name: "Dragoon", role: 3 },
+    { name: "Ninja", role: 3 },
+    { name: "Samurai", role: 3 },
+    { name: "Reaper", role: 3 },
+    { name: "Bard", role: 3 },
+    { name: "Machinist", role: 3 },
+    { name: "Dancer", role: 3 },
+    { name: "Black Mage", role: 3 },
+    { name: "Summoner", role: 3 },
+    { name: "Red Mage", role: 3 },
+  ];
+
+  for (let i = 0; i < tanks.length; i++) {
+    await prisma.class.upsert({
+      where: { name: tanks[i].name },
+      update: { roleId: 1 },
+      create: {
+        name: tanks[i].name,
+        roleId: 1,
+      },
+    });
+  }
+
+  for (let i = 0; i < healers.length; i++) {
+    await prisma.class.upsert({
+      where: { name: healers[i].name },
+      update: { roleId: 2 },
+      create: {
+        name: healers[i].name,
+        roleId: 2,
+      },
+    });
+  }
+
+  for (let i = 0; i < dps.length; i++) {
+    await prisma.class.upsert({
+      where: { name: dps[i].name },
+      update: { roleId: 3 },
+      create: {
+        name: dps[i].name,
+        roleId: 3,
+      },
+    });
+  }
+}
 main()
   .then(async () => {
     await prisma.$disconnect();

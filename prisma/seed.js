@@ -121,6 +121,13 @@ async function main() {
       name: "Mount",
     },
   });
+  await prisma.loot_Type.upsert({
+    where: { name: "Weapon (Specific)" },
+    update: {},
+    create: {
+      name: "Weapon (Specific)",
+    },
+  });
   response = await fetch("https://xivapi.com/Item?page=404");
   data = await response.json();
   for (let i = 0; i < data.Results.length; i++) {
@@ -155,11 +162,11 @@ async function main() {
     if (data.Results[i].ID > 40164 && data.Results[i].ID < 40184) {
       await prisma.loot.upsert({
         where: { name: data.Results[i].Name },
-        update: { typeId: 2 },
+        update: { typeId: 18 },
         create: {
           name: data.Results[i].Name,
           image: data.Results[i].Icon,
-          typeId: 2,
+          typeId: 18,
         },
       });
     }
@@ -192,9 +199,12 @@ async function main() {
 
   lootArray = [
     [11, 12, 13, 14, 1],
-    [6, 8, 10, 19, 18, 2],
+    [6, 8, 10, 18, 19, 2],
     [7, 9, 16, 17, 3],
-    [5, 4, 18],
+    [
+      5, 4, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+      37, 38,
+    ],
   ];
 
   for (let i = 0; i < data.Results.length; i++) {

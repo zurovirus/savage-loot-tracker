@@ -3,8 +3,8 @@ import { prisma } from "@/components/lib/prisma";
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
-      const loot = await prisma.loot.findMany({
-        include: { fights: true },
+      const loot = await prisma.group.findMany({
+        include: { players: true },
         orderBy: [
           {
             id: "asc",
@@ -13,9 +13,10 @@ export default async function handler(req, res) {
       });
       return res.status(200).json(loot);
     } catch (error) {
+      return res.status(400).json(error);
       console.log(error.message);
     }
   } else {
-    return res.status(500).json(error);
+    return res.status(500).json();
   }
 }

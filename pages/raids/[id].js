@@ -1,54 +1,49 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import MembersComboBox from "@/components/memberComboBox";
+import useFetch from "../useFetch";
 
 export default function RaidDetailsPage() {
   const [loots, setLoots] = useState([]);
   const [weapons, setWeapons] = useState([]);
   const [droppedWeapon, setDroppedWeapon] = useState();
-  const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-  const { id } = router.query;
+  const [floorName, setFloorName] = useState("");
+  const [floorId, setFloorId] = useState();
+
   const weaponRef = useRef(null);
 
+  const { data, isLoading, id } = useFetch("/api/loot");
+
   useEffect(() => {
-    if (router.isReady) {
-      if (!id) return null;
-      setWeapons([]);
-      getLoot();
+    if (!isLoading && data.length > 0) {
+      const filteredWeapons = data.filter((item) => item.id > 20);
+      const filteredLoot = data.filter((item) =>
+        item.fights.some(
+          (fight) => fight.id == id && item.typeId != 1 && item.typeId != 18
+        )
+      );
+      setWeapons(filteredWeapons);
+      setLoots(filteredLoot);
     }
-  }, [router.isReady]);
+  }, [isLoading, data, id]);
+
+  useEffect(() => {
+    if (loots.length > 0) {
+      setFloorName(loots[0].fights[0].name);
+      setFloorId(loots[0].fights[0].floor);
+    }
+  }),
+    [loots];
 
   const handleComboBoxChange = () => {
     setDroppedWeapon(
       weapons.find((item) => item.id == weaponRef.current.value)
     );
-    console.log(droppedWeapon);
   };
-  async function getLoot() {
-    const response = await fetch(`/api/loot`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const lootData = await response.json();
-    const filteredWeapons = lootData.filter((item) => item.id > 20);
-    const filteredLoot = lootData.filter((item) =>
-      item.fights.some(
-        (fight) => fight.id == id && item.typeId != 1 && item.typeId != 18
-      )
-    );
-
-    setWeapons(filteredWeapons);
-    setLoots(filteredLoot);
-    setIsLoading(false);
-  }
 
   return (
-    <div className="h-screen">
-      {isLoading && (
+    <>
+      {/* {isLoading && (
         <>
           <div className="h-screen">
             <div className="flex justify-center">
@@ -56,27 +51,23 @@ export default function RaidDetailsPage() {
             </div>
           </div>
         </>
-      )}
-      <h1 className=" text-center text-2xl">
-        {!isLoading && loots[0].fights[0].name}
-      </h1>
+      )} */}
+      <h1 className=" text-center text-2xl p-6">{floorName}</h1>
       {loots &&
         loots.map(({ name, id, image }) => (
-          <>
-            <div className="flex justify-around">
-              <div className="flex w-80 p-2 my-2">
-                <img src={`https://xivapi.com${image}`} />
-                <p className="mx-2">{name}</p>
-              </div>
-              <MembersComboBox />
+          <div key={id} className="flex justify-center">
+            <div className="flex w-96 p-2 my-2">
+              <img src={`https://xivapi.com${image}`} />
+              <p className="mx-2">{name}</p>
             </div>
-          </>
+            <MembersComboBox />
+          </div>
         ))}
-      {!isLoading && weapons && loots[0].fights[0].floor === 4 && (
+      {floorId && floorId == 4 && (
         <>
           {droppedWeapon && (
-            <div className="flex justify-around">
-              <div className="flex w-80 p-2 my-2">
+            <div className="flex justify-center" key={droppedWeapon.id}>
+              <div className="flex w-96 p-2 my-2">
                 <img src={`https://xivapi.com${droppedWeapon.image}`} />
                 <p className="mx-2">{droppedWeapon.name}</p>
               </div>
@@ -86,19 +77,21 @@ export default function RaidDetailsPage() {
           <div className="text-center">
             <select
               ref={weaponRef}
-              className="select select-bordered rounded-md select-lg my-2 bg-white"
+              className="select select-bordered rounded-md select-sm my-2 text-black"
               onChange={handleComboBoxChange}
             >
               <option hidden value="">
                 Select a weapon
               </option>
               {weapons.map(({ name, id }) => (
-                <option value={id}>{name}</option>
+                <option key={id} value={id}>
+                  {name}
+                </option>
               ))}
             </select>
           </div>
         </>
       )}
-    </div>
+    </>
   );
 }

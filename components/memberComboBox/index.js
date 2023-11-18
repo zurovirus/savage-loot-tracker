@@ -13,12 +13,14 @@ export default function MembersComboBox() {
 
   return (
     <>
-      <div className="flex w-80 my-4">
+      <div className="flex items-center w-80 my-4">
         <p className="mx-2">Select a raid member:</p>
         <div className="">
-          <select className="rounded-md w-auto">
+          <select className="select select-sm rounded-md w-auto text-black">
             {players.map(({ name, id }) => (
-              <option value={id}>{name}</option>
+              <option key={id} value={id}>
+                {name}
+              </option>
             ))}
           </select>
         </div>

@@ -182,10 +182,10 @@ async function main() {
     },
   });
   await prisma.tier.upsert({
-    where: { name: "Anabaseios Savage (P9S-P12S)" },
-    update: {},
+    where: { name: "Pandæmonium: Anabaseios Savage (P9S-P12S)" },
+    update: { name: "Pandæmonium: Anabaseios Savage (P9S-P12S)" },
     create: {
-      name: "Anabaseios Savage (P9S-P12S)",
+      name: "Pandæmonium: Anabaseios Savage (P9S-P12S)",
     },
   });
 

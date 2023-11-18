@@ -4,7 +4,7 @@ import Link from "next/link";
 import { removeSpecialCharacters } from "@/components/lib/utility";
 
 export default function Groups() {
-  const { data, isLoading, isError } = useFetch("/api/group");
+  const { data } = useFetch("/api/group");
   const [groups, setGroups] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
@@ -85,7 +85,6 @@ export default function Groups() {
               className="text-black"
               type="text"
               ref={groupName}
-              adwa
               autoFocus
             />
             {error && <label className="m-2 text-red-700">{error} </label>}

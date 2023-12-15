@@ -71,10 +71,10 @@ model Loot {
 }
 
 model PlayerLoot {
+  id        Int @id @default(autoincrement())
   player    Player @relation(fields: [playerId], references: [id])
   playerId  Int
   loot      Loot @relation(fields: [lootId], references: [id])
   lootId    Int
   date      DateTime  @default(now())
-  @@id([playerId, lootId])
 }

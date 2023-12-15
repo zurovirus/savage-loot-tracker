@@ -130,7 +130,7 @@ async function main() {
   });
   response = await fetch("https://xivapi.com/Item?page=404");
   data = await response.json();
-  for (let i = 0; i < data.Results.length; i++) {
+  for (let i = 2; i < data.Results.length; i++) {
     if (data.Results[i].ID > 40302 && data.Results[i].ID < 40307) {
       await prisma.loot.upsert({
         where: { name: data.Results[i].Name },
@@ -145,11 +145,11 @@ async function main() {
     if (data.Results[i].ID > 40306 && data.Results[i].ID < 40322) {
       await prisma.loot.upsert({
         where: { name: data.Results[i].Name },
-        update: { typeId: i - 4 },
+        update: {},
         create: {
           name: data.Results[i].Name,
           image: data.Results[i].Icon,
-          typeId: i - 6,
+          typeId: i - 4,
         },
       });
     }
@@ -212,10 +212,10 @@ async function main() {
     await prisma.fight.upsert({
       where: { name: data.Results[i].Name },
       update: {
-        floor: i + 1,
-        loots: {
-          connect: lootIds.map((id) => ({ id })),
-        },
+        // floor: i + 1,
+        // loots: {
+        //   connect: lootIds.map((id) => ({ id })),
+        // },
       },
       create: {
         name: data.Results[i].Name,

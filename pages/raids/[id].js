@@ -1,7 +1,8 @@
-import { useRouter } from "next/router";
 import { useState, useEffect, useRef } from "react";
 import MembersComboBox from "@/components/memberComboBox";
+import GroupComboBox from "@/components/groupComboBox";
 import useFetch from "../useFetch";
+import Link from "next/link";
 
 export default function RaidDetailsPage() {
   const [loots, setLoots] = useState([]);
@@ -9,7 +10,8 @@ export default function RaidDetailsPage() {
   const [droppedWeapon, setDroppedWeapon] = useState();
   const [floorName, setFloorName] = useState("");
   const [floorId, setFloorId] = useState();
-
+  const [selectedGroup, setSelectedGroup] = useState();
+  const [playerLoot, setPlayerLoot] = useState([]);
   const weaponRef = useRef(null);
 
   const { data, isLoading, id } = useFetch("/api/loot");
@@ -35,10 +37,56 @@ export default function RaidDetailsPage() {
   }),
     [loots];
 
-  const handleComboBoxChange = () => {
+  const handleWeaponBoxChange = () => {
     setDroppedWeapon(
       weapons.find((item) => item.id == weaponRef.current.value)
     );
+  };
+
+  const handleSelectedPlayerChanged = (player) => {
+    updatePlayerLoot(player);
+  };
+
+  const updatePlayerLoot = (item) => {
+    setPlayerLoot((prevItems) => {
+      const updatedPlayerLoot = prevItems.map((loot) => {
+        if (loot.lootId === parseInt(item.lootId)) {
+          // Update the playerId for the matching item
+          return { ...loot, playerId: item.playerId };
+        }
+        return loot; // Leave other items unchanged
+      });
+
+      if (
+        !updatedPlayerLoot.some((loot) => loot.lootId === parseInt(item.lootId))
+      ) {
+        // If the item was not found, add a new entry
+        updatedPlayerLoot.push({
+          lootId: parseInt(item.lootId),
+          playerId: parseInt(item.playerId),
+        });
+      }
+
+      return updatedPlayerLoot;
+    });
+  };
+
+  const handleGroupChange = (value) => {
+    setSelectedGroup(value);
+  };
+
+  const handleUpdate = async () => {
+    const response = await fetch("/api/playerLoot/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(playerLoot),
+    });
+
+    if (response.ok) {
+      console.log("Updated Loot!");
+    }
   };
 
   return (
@@ -53,6 +101,7 @@ export default function RaidDetailsPage() {
         </>
       )} */}
       <h1 className=" text-center text-2xl p-6">{floorName}</h1>
+      <GroupComboBox onSelectChange={handleGroupChange} />
       {loots &&
         loots.map(({ name, id, image }) => (
           <div key={id} className="flex justify-center">
@@ -60,7 +109,11 @@ export default function RaidDetailsPage() {
               <img src={`https://xivapi.com${image}`} />
               <p className="mx-2">{name}</p>
             </div>
-            <MembersComboBox />
+            <MembersComboBox
+              group={selectedGroup}
+              setSelectedPlayer={handleSelectedPlayerChanged}
+              item={id}
+            />
           </div>
         ))}
       {floorId && floorId == 4 && (
@@ -71,14 +124,18 @@ export default function RaidDetailsPage() {
                 <img src={`https://xivapi.com${droppedWeapon.image}`} />
                 <p className="mx-2">{droppedWeapon.name}</p>
               </div>
-              <MembersComboBox />
+              <MembersComboBox
+                group={selectedGroup}
+                setSelectedPlayer={handleSelectedPlayerChanged}
+                item={id}
+              />
             </div>
           )}
           <div className="text-center">
             <select
               ref={weaponRef}
               className="select select-bordered rounded-md select-sm my-2 text-black"
-              onChange={handleComboBoxChange}
+              onChange={handleWeaponBoxChange}
             >
               <option hidden value="">
                 Select a weapon
@@ -92,6 +149,7 @@ export default function RaidDetailsPage() {
           </div>
         </>
       )}
+      <button onClick={handleUpdate}>Update Loot</button>
     </>
   );
 }

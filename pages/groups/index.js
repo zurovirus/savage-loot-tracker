@@ -1,6 +1,7 @@
 import useFetch from "../useFetch";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
+import AddItem from "@/components/addItem";
 import { removeSpecialCharacters } from "@/components/lib/utility";
 
 export default function Groups() {
@@ -73,7 +74,16 @@ export default function Groups() {
       )} */}
       <div>
         <h1>Groups</h1>
-        {!isCreating && (
+        <AddItem
+          submitHandler={submitHandler}
+          dataName={"groups"}
+          dataRef={groupName}
+          data={groups}
+          error={error}
+          toggleCreate={toggleCreate}
+          isCreating={isCreating}
+        />
+        {/* {!isCreating && (
           <button className="btn btn-sm" onClick={toggleCreate}>
             Create group
           </button>
@@ -105,7 +115,7 @@ export default function Groups() {
             <div key={id}>
               <Link href={`/groups/${id}`}>{name}</Link>
             </div>
-          ))}
+          ))} */}
       </div>
     </>
   );

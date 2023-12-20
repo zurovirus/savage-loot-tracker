@@ -83,6 +83,12 @@ export default function Groups() {
           toggleCreate={toggleCreate}
           isCreating={isCreating}
         />
+        {data &&
+          data.map(({ name, id }) => (
+            <div key={id}>
+              <Link href={`/groups/${id}`}>{name}</Link>
+            </div>
+          ))}
         {/* {!isCreating && (
           <button className="btn btn-sm" onClick={toggleCreate}>
             Create group

@@ -38,7 +38,7 @@ export default function MembersComboBox({
     <>
       {players.length !== 0 ? (
         <div className="flex items-center w-80 my-4">
-          <p className="mx-2">Loot Winner:</p>
+          <p className="mx-2">Looted by:</p>
           <div className="">
             <select
               onChange={changeHandler}

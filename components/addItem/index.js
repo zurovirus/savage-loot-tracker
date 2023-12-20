@@ -1,6 +1,3 @@
-import { useState, useRef } from "react";
-import Link from "next/link";
-
 export default function AddItem({
   submitHandler,
   dataRef,
@@ -30,12 +27,6 @@ export default function AddItem({
           </button>
         </div>
       )}
-      {data &&
-        data.map(({ name, id }) => (
-          <div key={id}>
-            <Link href={`/${dataName}/${id}`}>{name}</Link>
-          </div>
-        ))}
     </>
   );
 }

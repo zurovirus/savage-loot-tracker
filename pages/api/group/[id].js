@@ -3,11 +3,45 @@ import { prisma } from "@/components/lib/prisma";
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
+      const groupId = parseInt(req.query.id);
+
       const group = await prisma.group.findFirst({
-        where: { id: parseInt(req.query.id) },
-        include: { players: true },
+        where: { id: groupId },
+        include: {
+          players: true,
+        },
       });
-      return res.status(200).json(group);
+
+      // Fetch playerloots and include loot data
+      const playerloots = await prisma.playerLoot.findMany({
+        take: 16,
+        where: {
+          playerId: {
+            in: group.players.map((player) => player.id),
+          },
+        },
+        include: {
+          loot: {
+            include: {
+              fights: true,
+            },
+          }, // Include loot data for each playerloot
+        },
+        orderBy: [{ date: "desc" }, { lootId: "desc" }],
+      });
+
+      // Associate groups with players and player loots (including loot data)
+      const groupWithPlayerLoots = {
+        ...group,
+        players: group.players.map((player) => ({
+          ...player,
+          playerloots: playerloots.filter(
+            (loot) => loot.playerId === player.id
+          ),
+        })),
+      };
+
+      return res.status(200).json(groupWithPlayerLoots);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json(error);

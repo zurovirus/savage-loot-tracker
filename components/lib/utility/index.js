@@ -7,3 +7,13 @@ export function removeSpecialCharacters(input) {
 
   return cleanedInput;
 }
+
+export function classColorText(classId) {
+  if (classId >= 1 && classId <= 4) {
+    return "text-blue-500";
+  } else if (classId >= 5 && classId <= 9) {
+    return "text-green-500";
+  } else {
+    return "text-red-500";
+  }
+}

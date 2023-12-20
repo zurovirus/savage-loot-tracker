@@ -93,12 +93,16 @@ export default function RaidDetailsPage() {
   };
 
   const handleUpdate = async () => {
+    const dataToSend = playerLoot.map((loot) => {
+      return { lootId: loot.lootId, playerId: loot.playerId };
+    });
+
     const response = await fetch("/api/playerLoot/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(playerLoot),
+      body: JSON.stringify(dataToSend),
     });
 
     if (response.ok) {

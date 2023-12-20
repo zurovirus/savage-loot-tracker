@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import MembersComboBox from "@/components/memberComboBox";
 import GroupComboBox from "@/components/groupComboBox";
-import useFetch from "../useFetch";
+import useFetch from "../../hooks/useFetch";
 import Link from "next/link";
 
 export default function RaidDetailsPage() {
@@ -15,13 +15,11 @@ export default function RaidDetailsPage() {
   const [successMessage, setSuccessMessage] = useState();
   const [errorMessage, setErrorMessage] = useState();
   const weaponRef = useRef(null);
-
   const { data, isLoading, id } = useFetch("/api/loot");
 
-  console.log(playerLoot);
   useEffect(() => {
     if (!isLoading && data.length > 0) {
-      const filteredWeapons = data.filter((item) => item.id > 20);
+      const filteredWeapons = data.filter((item) => item.typeId === 18);
       const filteredLoot = data.filter((item) =>
         item.fights.some(
           (fight) => fight.id == id && item.typeId != 1 && item.typeId != 18
@@ -29,6 +27,8 @@ export default function RaidDetailsPage() {
       );
       setWeapons(filteredWeapons);
       setLoots(filteredLoot);
+      messageHandler();
+      setPlayerLoot([]);
     }
   }, [isLoading, data, id]);
 
@@ -37,51 +37,59 @@ export default function RaidDetailsPage() {
       setFloorName(loots[0].fights[0].name);
       setFloorId(loots[0].fights[0].floor);
     }
-  }),
-    [loots];
+  }, [loots]);
 
   const handleWeaponBoxChange = () => {
     setDroppedWeapon(
       weapons.find((item) => item.id == weaponRef.current.value)
     );
+
+    if (droppedWeapon) {
+      setPlayerLoot((prevItems) => {
+        const updatedPlayerLoot = prevItems.filter(
+          (loot) => loot.typeId !== droppedWeapon.typeId
+        );
+        return updatedPlayerLoot;
+      });
+    }
   };
 
   const handleSelectedPlayerChanged = (player) => {
     updatePlayerLoot(player);
   };
 
+  const handleGroupChange = (value) => {
+    setSelectedGroup(value);
+  };
+
+  function messageHandler() {
+    setSuccessMessage(null);
+    setErrorMessage(null);
+  }
+
   const updatePlayerLoot = (item) => {
     setPlayerLoot((prevItems) => {
       const updatedPlayerLoot = prevItems.map((loot) => {
-        if (loot.lootId === parseInt(item.lootId)) {
+        if (loot.typeId === item.typeId) {
           // Update the playerId for the matching item
-          return { ...loot, playerId: item.playerId };
-        } else if (loot.lootId >= 20) {
-          return {
-            ...loot,
-            lootId: item.lootId,
-            playerId: item.playerId,
-          };
+          return { ...loot, lootId: item.lootId, playerId: item.playerId };
         }
         return loot; // Leave other items unchanged
       });
 
+      // If the item was not found, add a new entry
       if (
         !updatedPlayerLoot.some((loot) => loot.lootId === parseInt(item.lootId))
       ) {
-        // If the item was not found, add a new entry
         updatedPlayerLoot.push({
           lootId: item.lootId,
+          typeId: item.typeId,
           playerId: item.playerId,
         });
       }
 
       return updatedPlayerLoot;
     });
-  };
-
-  const handleGroupChange = (value) => {
-    setSelectedGroup(value);
   };
 
   const handleUpdate = async () => {
@@ -100,22 +108,8 @@ export default function RaidDetailsPage() {
     }
   };
 
-  const messageHandler = () => {
-    setSuccessMessage(null);
-    setErrorMessage(null);
-  };
-
   return (
     <>
-      {/* {isLoading && (
-        <>
-          <div className="h-screen">
-            <div className="flex justify-center">
-              <p className="text-2xl mx-2">Loading Tracker...</p>
-            </div>
-          </div>
-        </>
-      )} */}
       {successMessage && (
         <>
           <div className="flex justify-between font-semibold mb-4 items-center bg-green-600 rounded-lg">
@@ -145,7 +139,7 @@ export default function RaidDetailsPage() {
       <h1 className=" text-center text-2xl p-6">{floorName}</h1>
       <GroupComboBox onSelectChange={handleGroupChange} />
       {loots &&
-        loots.map(({ name, id, image }) => (
+        loots.map(({ name, id, image, typeId }) => (
           <div key={id} className="flex justify-center">
             <div className="flex w-96 p-2 my-2">
               <img src={`https://xivapi.com${image}`} />
@@ -155,6 +149,7 @@ export default function RaidDetailsPage() {
               group={selectedGroup}
               setSelectedPlayer={handleSelectedPlayerChanged}
               item={id}
+              type={typeId}
             />
           </div>
         ))}
@@ -170,6 +165,7 @@ export default function RaidDetailsPage() {
                 group={selectedGroup}
                 setSelectedPlayer={handleSelectedPlayerChanged}
                 item={droppedWeapon.id}
+                type={droppedWeapon.typeId}
               />
             </div>
           )}

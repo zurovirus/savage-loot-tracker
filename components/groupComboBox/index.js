@@ -1,4 +1,4 @@
-import useFetch from "@/pages/useFetch";
+import useFetch from "@/hooks/useFetch";
 import { useState } from "react";
 import Link from "next/link";
 

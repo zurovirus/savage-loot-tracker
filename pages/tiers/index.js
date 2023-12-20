@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import useFetch from "../useFetch";
+import useFetch from "../../hooks/useFetch";
 
 export default function Tier() {
   const { data: tiers, isLoading } = useFetch("/api/tiers");

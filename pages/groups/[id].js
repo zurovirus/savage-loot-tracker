@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import AddItem from "@/components/addItem";
 import { removeSpecialCharacters } from "@/components/lib/utility";
-import useFetch from "../useFetch";
+import useFetch from "../../hooks/useFetch";
 
 export default function GroupDetailsPage() {
   const router = useRouter();

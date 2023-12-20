@@ -1,8 +1,8 @@
 import Link from "next/link";
-import useFetch from "@/pages/useFetch";
+import useFetch from "@/hooks/useFetch";
 
 export default function Nav() {
-  const { data, isLoading, isError } = useFetch("/api/tiers");
+  const { data } = useFetch("/api/tiers");
 
   const handleClick = () => {
     const elem = document.activeElement;
@@ -10,6 +10,7 @@ export default function Nav() {
       elem?.blur();
     }
   };
+
   return (
     <>
       <div className="flex justify-evenly border border-x-transparent border-y-white-950 transition delay-150 ease-in-out bg-stone-950 hover:bg-stone-900  text-white">

@@ -3,7 +3,6 @@ import { prisma } from "@/components/lib/prisma";
 export default async function handler(req, res) {
   const data = req.body;
 
-  console.log(req.body);
   if (req.method === "POST") {
     try {
       const playerLoot = await prisma.playerLoot.createMany({

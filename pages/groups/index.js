@@ -1,4 +1,4 @@
-import useFetch from "../useFetch";
+import useFetch from "../../hooks/useFetch";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import AddItem from "@/components/addItem";

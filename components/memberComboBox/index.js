@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-export default function MembersComboBox({ group, setSelectedPlayer, item }) {
+
+export default function MembersComboBox({
+  group,
+  setSelectedPlayer,
+  item,
+  type,
+}) {
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
@@ -21,9 +27,13 @@ export default function MembersComboBox({ group, setSelectedPlayer, item }) {
   }, [group]);
 
   const changeHandler = (e) => {
-    console.log(e.target.value);
-    setSelectedPlayer({ lootId: item, playerId: parseInt(e.target.value) });
+    setSelectedPlayer({
+      lootId: item,
+      typeId: type,
+      playerId: parseInt(e.target.value),
+    });
   };
+
   return (
     <>
       {players.length !== 0 ? (

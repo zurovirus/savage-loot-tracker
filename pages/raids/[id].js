@@ -12,10 +12,13 @@ export default function RaidDetailsPage() {
   const [floorId, setFloorId] = useState();
   const [selectedGroup, setSelectedGroup] = useState();
   const [playerLoot, setPlayerLoot] = useState([]);
+  const [successMessage, setSuccessMessage] = useState();
+  const [errorMessage, setErrorMessage] = useState();
   const weaponRef = useRef(null);
 
   const { data, isLoading, id } = useFetch("/api/loot");
 
+  console.log(playerLoot);
   useEffect(() => {
     if (!isLoading && data.length > 0) {
       const filteredWeapons = data.filter((item) => item.id > 20);
@@ -53,6 +56,12 @@ export default function RaidDetailsPage() {
         if (loot.lootId === parseInt(item.lootId)) {
           // Update the playerId for the matching item
           return { ...loot, playerId: item.playerId };
+        } else if (loot.lootId >= 20) {
+          return {
+            ...loot,
+            lootId: item.lootId,
+            playerId: item.playerId,
+          };
         }
         return loot; // Leave other items unchanged
       });
@@ -62,8 +71,8 @@ export default function RaidDetailsPage() {
       ) {
         // If the item was not found, add a new entry
         updatedPlayerLoot.push({
-          lootId: parseInt(item.lootId),
-          playerId: parseInt(item.playerId),
+          lootId: item.lootId,
+          playerId: item.playerId,
         });
       }
 
@@ -85,8 +94,15 @@ export default function RaidDetailsPage() {
     });
 
     if (response.ok) {
-      console.log("Updated Loot!");
+      setSuccessMessage("Loot has been added successfully");
+    } else {
+      setErrorMessage("An error has occurred adding loot");
     }
+  };
+
+  const messageHandler = () => {
+    setSuccessMessage(null);
+    setErrorMessage(null);
   };
 
   return (
@@ -100,6 +116,32 @@ export default function RaidDetailsPage() {
           </div>
         </>
       )} */}
+      {successMessage && (
+        <>
+          <div className="flex justify-between font-semibold mb-4 items-center bg-green-600 rounded-lg">
+            <p className="mx-auto">{successMessage}</p>
+            <button
+              onClick={messageHandler}
+              className="mx-3 font-bold -mt-1 text-center hover:text-black hover:font-bold"
+            >
+              x
+            </button>
+          </div>
+        </>
+      )}
+      {errorMessage && (
+        <>
+          <div className="flex justify-between font-semibold mb-4 items-center bg-red-600 rounded-lg">
+            <p className="mx-auto">{errorMessage}</p>
+            <button
+              onClick={messageHandler}
+              className="mx-3 font-bold -mt-1 text-center hover:text-black hover:font-bold"
+            >
+              x
+            </button>
+          </div>
+        </>
+      )}
       <h1 className=" text-center text-2xl p-6">{floorName}</h1>
       <GroupComboBox onSelectChange={handleGroupChange} />
       {loots &&
@@ -127,7 +169,7 @@ export default function RaidDetailsPage() {
               <MembersComboBox
                 group={selectedGroup}
                 setSelectedPlayer={handleSelectedPlayerChanged}
-                item={id}
+                item={droppedWeapon.id}
               />
             </div>
           )}
@@ -149,7 +191,14 @@ export default function RaidDetailsPage() {
           </div>
         </>
       )}
-      <button onClick={handleUpdate}>Update Loot</button>
+      {playerLoot.length > 0 && (
+        <button
+          onClick={handleUpdate}
+          className="flex mx-auto font-bold px-4 py-2 my-4 bg-yellow-600 hover:bg-yellow-700 hover:px-3 rounded-lg"
+        >
+          Update Loot
+        </button>
+      )}
     </>
   );
 }

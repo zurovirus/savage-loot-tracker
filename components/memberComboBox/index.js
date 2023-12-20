@@ -22,13 +22,13 @@ export default function MembersComboBox({ group, setSelectedPlayer, item }) {
 
   const changeHandler = (e) => {
     console.log(e.target.value);
-    setSelectedPlayer({ lootId: item, playerId: e.target.value });
+    setSelectedPlayer({ lootId: item, playerId: parseInt(e.target.value) });
   };
   return (
     <>
       {players.length !== 0 ? (
         <div className="flex items-center w-80 my-4">
-          <p className="mx-2">Select a raid member:</p>
+          <p className="mx-2">Loot Winner:</p>
           <div className="">
             <select
               onChange={changeHandler}

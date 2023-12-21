@@ -1,7 +1,6 @@
 export default function AddItem({
   submitHandler,
   dataRef,
-  data,
   dataName,
   error,
   toggleCreate,

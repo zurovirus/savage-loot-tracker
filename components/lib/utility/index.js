@@ -10,10 +10,10 @@ export function removeSpecialCharacters(input) {
 
 export function classColorText(classId) {
   if (classId >= 1 && classId <= 4) {
-    return "text-blue-500";
+    return "bg-blue-800";
   } else if (classId >= 5 && classId <= 9) {
-    return "text-green-500";
+    return "bg-green-700";
   } else {
-    return "text-red-500";
+    return "bg-red-900";
   }
 }

@@ -14,7 +14,6 @@ export default async function handler(req, res) {
 
       // Fetch playerloots and include loot data
       const playerloots = await prisma.playerLoot.findMany({
-        take: 16,
         where: {
           playerId: {
             in: group.players.map((player) => player.id),

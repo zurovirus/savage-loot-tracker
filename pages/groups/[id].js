@@ -1,13 +1,10 @@
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
 import AddItem from "@/components/addItem";
-import {
-  removeSpecialCharacters,
-  classColorText,
-} from "@/components/lib/utility";
+import { removeSpecialCharacters } from "@/components/lib/utility";
 import useFetch from "../../hooks/useFetch";
-import { formatDistanceToNow, format } from "date-fns";
+import DisplayPlayerLoot from "@/components/displayPlayerLoot";
+import DisplayNamePlate from "@/components/displayNamePlate";
 
 export default function GroupDetailsPage() {
   const router = useRouter();
@@ -16,7 +13,6 @@ export default function GroupDetailsPage() {
   const [classes, setClasses] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
-  const [uniqueDates, setUniqueDates] = useState([]);
   const playerName = useRef("");
   const chosenClass = useRef("");
   const { data } = useFetch(`/api/class`);
@@ -45,20 +41,6 @@ export default function GroupDetailsPage() {
   useEffect(() => {
     setClasses(data);
   }, [data]);
-
-  function groupLootByDate(data) {
-    const lootByDate = {};
-
-    data.forEach((item) => {
-      const date = item.date;
-      if (!lootByDate[date]) {
-        lootByDate[date] = [];
-      }
-      lootByDate[date].push(item);
-    });
-
-    return lootByDate;
-  }
 
   const toggleCreate = () => {
     setIsCreating((prevState) => !prevState);
@@ -105,53 +87,35 @@ export default function GroupDetailsPage() {
     }
   };
 
-  function groupLootByDate(data) {
-    const lootByDate = {};
-
-    data.forEach((item) => {
-      const date = item.date;
-      if (!lootByDate[date]) {
-        lootByDate[date] = [];
-      }
-      lootByDate[date].push(item);
-    });
-
-    return lootByDate;
-  }
-
-  // ... (other code)
-
   return (
     <div>
-      <h1>Group Details</h1>
-      <div className="flex items-center">
-        {classes && isCreating && (
-          <div>
-            <label>Class</label>
-            <select
-              ref={chosenClass}
-              className="select select-bordered rounded-md w-auto select-sm text-black"
-            >
-              <option hidden value="">
-                Select a class
+      <h1 className="text-2xl m-2">Group Details</h1>
+      {classes && isCreating && (
+        <div className="flex items-center mx-6 my-4">
+          <label className="text-lg">Class:</label>
+          <select
+            ref={chosenClass}
+            className="select select-bordered border-white rounded-lg w-auto select-sm mx-8 bg-zinc-800 focus:outline-none focus:ring focus:ring-yellow-400"
+          >
+            <option hidden value="">
+              Select a class
+            </option>
+            {classes.map(({ id, name }) => (
+              <option key={id} value={id}>
+                {name}
               </option>
-              {classes.map(({ id, name }) => (
-                <option key={id} value={id}>
-                  {name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-        <AddItem
-          submitHandler={submitHandler}
-          dataName={"players"}
-          dataRef={playerName}
-          error={error}
-          toggleCreate={toggleCreate}
-          isCreating={isCreating}
-        />
-      </div>
+            ))}
+          </select>
+        </div>
+      )}
+      <AddItem
+        submitHandler={submitHandler}
+        dataName={"players"}
+        dataRef={playerName}
+        error={error}
+        toggleCreate={toggleCreate}
+        isCreating={isCreating}
+      />
       {tierData.map(({ id, name, fights }) => (
         <div key={id} tabIndex={0} className="collapse my-4 z-5">
           <div className="collapse-title text-xl font-bold">{name}</div>
@@ -167,49 +131,16 @@ export default function GroupDetailsPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-2">
                     {players.map(({ name, id, classId, playerloots }) => (
                       <div key={id} className="col-span-1">
-                        <Link href={`/${name}/${id}`}>
-                          <div
-                            className={`mx-auto text-center my-2 font-semibold rounded-md p-2 ${classColorText(
-                              classId
-                            )}`}
-                          >
-                            <p className="text-lg">{name}</p>
-                            {classes.map((classItem) => (
-                              <div key={classItem.id}>
-                                {classItem.id === classId && (
-                                  <p className="mx-2">{classItem.name}</p>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        </Link>
-                        {Object.keys(
-                          groupLootByDate(
-                            playerloots.filter(
-                              (loot) => loot.loot.fights[0].id === fight.id
-                            )
-                          )
-                        ).map((date) => (
-                          <div key={date}>
-                            <p className="mx-4 text-amber-400">{`Looted ${formatDistanceToNow(
-                              new Date(date)
-                            )} ago`}</p>
-                            {groupLootByDate(
-                              playerloots.filter(
-                                (loot) => loot.loot.fights[0].id === fight.id
-                              )
-                            )[date].map(({ id, loot, date }) => (
-                              <div key={id} className="flex mx-6 my-2">
-                                <img
-                                  src={`https://xivapi.com${loot.image}`}
-                                  alt={loot.name}
-                                  className="object-none"
-                                />
-                                <p className="mx-2">{loot.name}</p>
-                              </div>
-                            ))}
-                          </div>
-                        ))}
+                        <DisplayNamePlate
+                          name={name}
+                          classes={classes}
+                          classId={classId}
+                          id={id}
+                        />
+                        <DisplayPlayerLoot
+                          playerloots={playerloots}
+                          fightId={fight.id}
+                        />
                       </div>
                     ))}
                   </div>

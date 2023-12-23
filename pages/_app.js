@@ -5,13 +5,11 @@ import Banner from "@/components/banner";
 export default function App({ Component, pageProps }) {
   return (
     <>
-      <Banner />
+      {/* <Banner /> */}
       <Nav />
       <div className="flex justify-center bg-stone-800 text-white">
-        <div className="max-w-7xl w-full max-h-full">
-          <div className="min-h-screen">
-            <Component {...pageProps} />
-          </div>
+        <div className="max-w-7xl w-full max-h-full min-h-screen">
+          <Component {...pageProps} />
         </div>
       </div>
     </>

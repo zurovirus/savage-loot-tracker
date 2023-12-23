@@ -63,17 +63,8 @@ export default function Groups() {
 
   return (
     <>
-      {/* {isLoading && (
-        <>
-          <div className="h-screen">
-            <div className="flex justify-center">
-              <p className="text-2xl mx-2">Loading Tracker...</p>
-            </div>
-          </div>
-        </>
-      )} */}
       <div>
-        <h1>Groups</h1>
+        <h1 className="text-2xl m-2">My groups</h1>
         <AddItem
           submitHandler={submitHandler}
           dataName={"groups"}
@@ -86,42 +77,11 @@ export default function Groups() {
         {data &&
           data.map(({ name, id }) => (
             <div key={id}>
-              <Link href={`/groups/${id}`}>{name}</Link>
+              <Link href={`/groups/${id}`} className="mx-6">
+                {name}
+              </Link>
             </div>
           ))}
-        {/* {!isCreating && (
-          <button className="btn btn-sm" onClick={toggleCreate}>
-            Create group
-          </button>
-        )}
-        {isCreating && (
-          <div>
-            <label className="">Name</label>
-            <input
-              className="text-black"
-              type="text"
-              ref={groupName}
-              autoFocus
-            />
-            {error && <label className="m-2 text-red-700">{error} </label>}
-            <button
-              className="btn btn-sm"
-              type="submit"
-              onClick={submitHandler}
-            >
-              Submit
-            </button>
-            <button className="btn btn-sm" onClick={toggleCreate}>
-              Cancel
-            </button>
-          </div>
-        )}
-        {groups &&
-          groups.map(({ name, id }) => (
-            <div key={id}>
-              <Link href={`/groups/${id}`}>{name}</Link>
-            </div>
-          ))} */}
       </div>
     </>
   );

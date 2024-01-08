@@ -1,3 +1,6 @@
+## Notes
+This application is still a work in progress, all images are not the final representation of the application. Thanks!
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

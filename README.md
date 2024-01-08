@@ -2,8 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-Node v20.9.0 or later installed
-npm v10.2.3 or later installed
+Node v20.9.0 or later installed.
+
+npm v10.2.3 or later installed.
 
 The Node installer comes with npm, you can download the latest version [here.](https://nodejs.org/en/download/)
 
@@ -11,19 +12,19 @@ After cloning the directory, navigate to the folder with your chosen IDE.
 
 In the terminal, do a `npm install` to install all dependencies.
 
-Create a .env file in the folder root and add your database to the variable DATABASE_URL as seen below
+Create a .env file in the folder root and add your database to the variable DATABASE_URL as seen below.
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/df755b3c-5768-427f-8d1b-9b1977dd508a)
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/463d709c-91bd-423e-a841-43706d89a197)
 
-Using the terminal, push the current database schema onto your database with `npx prisma db push`
+Using the terminal, push the current database schema onto your database with `npx prisma db push`.
 
-Using the terminal, seed the database afterwards with `npx prisma db seed`
+Using the terminal, seed the database afterwards with `npx prisma db seed`.
 
-Using the terminal, run the development server with `npm run dev`
+Using the terminal, run the development server with `npm run dev`.
 
-Open http://localhost:3000/ in your browser
+Open http://localhost:3000/ in your browser.
 
 Create a group and add players to the group.
 

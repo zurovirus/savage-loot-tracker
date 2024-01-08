@@ -23,7 +23,7 @@ Using the terminal, seed the database afterwards with `npx prisma db seed`
 
 Using the terminal, run the development server with `npm run dev`
 
-Open [http://localhost:3000/]http://localhost:3000/ in your browser
+Open http://localhost:3000/ in your browser
 
 Create a group and add players to the group.
 

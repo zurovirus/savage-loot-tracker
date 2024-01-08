@@ -14,7 +14,7 @@ In the terminal, do a `npm install` to install all dependencies.
 
 Create a .env file in the folder root and add your database to the variable DATABASE_URL as seen below.
 
-![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/df755b3c-5768-427f-8d1b-9b1977dd508a)
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/e67f3018-6905-45b8-8966-8bb501bdec99)
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/463d709c-91bd-423e-a841-43706d89a197)
 

@@ -53,7 +53,10 @@ export default function Groups() {
 
       if (res.ok) {
         const group = await res.json();
-        setGroups((prevGroups) => [...prevGroups, group]);
+        setGroups((prevGroups) => [
+          ...prevGroups,
+          { id: group.id, name: group.name, players: [] },
+        ]);
         toggleCreate();
       }
     } catch (error) {
@@ -74,8 +77,8 @@ export default function Groups() {
           toggleCreate={toggleCreate}
           isCreating={isCreating}
         />
-        {data &&
-          data.map(({ name, id }) => (
+        {groups &&
+          groups.map(({ name, id }) => (
             <div key={id}>
               <Link href={`/groups/${id}`} className="mx-6">
                 {name}

@@ -10,12 +10,15 @@ export default function DisplayNamePlate({ name, classId, id, classes }) {
         )}`}
       >
         {classes.map((job) => (
-          <div key={job.id} className="flex items-center justify-around mr-10">
+          <div
+            key={job.id}
+            className="flex items-center text-center justify-around mr-10"
+          >
             {job.id === classId && (
               <>
                 <img src={`/jobIcons/${job.name}.png`} alt={job.name} />
                 <div className="flex flex-col mx-auto">
-                  <p className="mx-2 text-center">{job.name}</p>
+                  <p>{job.name}</p>
                   <p className="text-lg">{name}</p>
                 </div>
               </>

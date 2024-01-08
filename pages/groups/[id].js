@@ -28,9 +28,6 @@ export default function GroupDetailsPage() {
       });
       const result = await data.json();
       setPlayers(result.players);
-      players.map((player) => {
-        player.playerloots.map((loot) => {});
-      });
     };
 
     if (id) {

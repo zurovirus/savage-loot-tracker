@@ -17,7 +17,7 @@ export default function AddItem({
         <div className="flex">
           <label className="mx-6 text-lg">Name:</label>
           <input
-            className="px-3 border text-sm rounded-lg text-white border-gray-200 bg-zinc-800 focus:outline-none focus:ring focus:ring-yellow-400 focus:border-none"
+            className="px-3 border text-sm rounded-lg text-white border-gray-200 bg-zinc-800 focus:outline-none focus:ring-white focus:ring-1"
             type="text"
             ref={dataRef}
             autoFocus
@@ -25,14 +25,14 @@ export default function AddItem({
           {error && <label className="mx-4 text-red-700">{error} </label>}
           <div>
             <button
-              className="btn btn-sm mx-5 bg-green-700 hover:bg-green-800 border-none focus:outline-none focus:ring focus:ring-yellow-400 text-white"
+              className="btn btn-sm mx-5 bg-green-700 hover:bg-green-800 border-none focus:outline-none focus:ring-white focus:ring-1 text-white"
               type="submit"
               onClick={submitHandler}
             >
               Submit
             </button>
             <button
-              className="btn btn-sm bg-red-700 hover:bg-red-800 border-none focus:outline-none focus:ring focus:ring-yellow-400 text-white"
+              className="btn btn-sm bg-red-700 hover:bg-red-800 border-none focus:outline-none focus:ring-white focus:ring-1 text-white"
               onClick={toggleCreate}
             >
               Cancel

@@ -3,8 +3,12 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import AddItem from "@/components/addItem";
 import { removeSpecialCharacters } from "@/components/lib/utility";
+import Authenticate from "@/components/authenticate";
+import { useSession } from "next-auth/react";
 
 export default function Groups() {
+  Authenticate();
+  const { data: session } = useSession();
   const { data } = useFetch("/api/group");
   const [groups, setGroups] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
@@ -48,6 +52,7 @@ export default function Groups() {
         },
         body: JSON.stringify({
           name: cleanedName,
+          id: session.user.id,
         }),
       });
 
@@ -67,7 +72,7 @@ export default function Groups() {
   return (
     <>
       <div>
-        <h1 className="text-2xl m-2">My groups</h1>
+        <h1 className="text-2xl m-2 mb-4">My groups</h1>
         <AddItem
           submitHandler={submitHandler}
           dataName={"groups"}
@@ -79,8 +84,11 @@ export default function Groups() {
         />
         {groups &&
           groups.map(({ name, id }) => (
-            <div key={id}>
-              <Link href={`/groups/${id}`} className="mx-6">
+            <div key={id} className="my-2">
+              <Link
+                href={`/groups/${id}`}
+                className="mx-6 font-semibold text-xl text-blue-600 hover:text-blue-700"
+              >
                 {name}
               </Link>
             </div>

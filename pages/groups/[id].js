@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
-import AddItem from "@/components/addItem";
 import { removeSpecialCharacters } from "@/components/lib/utility";
+import AddItem from "@/components/addItem";
 import useFetch from "../../hooks/useFetch";
 import DisplayPlayerLoot from "@/components/displayPlayerLoot";
 import DisplayNamePlate from "@/components/displayNamePlate";
+import Link from "next/link";
 
 export default function GroupDetailsPage() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function GroupDetailsPage() {
     const fetchPlayers = async () => {
       const data = await fetch(`/api/group/${id}`, {
         method: "GET",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -86,7 +88,7 @@ export default function GroupDetailsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl m-2">Group Details</h1>
+      <h1 className="text-2xl m-2 mb-4">Group Details</h1>
       {classes && isCreating && (
         <div className="flex items-center mx-6 my-4">
           <label className="text-lg">Class:</label>
@@ -113,6 +115,28 @@ export default function GroupDetailsPage() {
         toggleCreate={toggleCreate}
         isCreating={isCreating}
       />
+      <div key={id} tabIndex={0} className="collapse my-4 z-10">
+        <div className="collapse-title text-xl font-bold">Players</div>
+        <input type="checkbox" defaultChecked />
+        <div className="collapse-content">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-2">
+            {players.length > 0 ? (
+              players.map(({ name, id, classId }) => (
+                <Link key={id} className="" href={`/players/${id}`}>
+                  <DisplayNamePlate
+                    name={name}
+                    classes={classes}
+                    classId={classId}
+                    id={id}
+                  />
+                </Link>
+              ))
+            ) : (
+              <p>Empty in here...</p>
+            )}
+          </div>
+        </div>
+      </div>
       {tierData.map(({ id, name, fights }) => (
         <div key={id} tabIndex={0} className="collapse my-4 z-5">
           <div className="collapse-title text-xl font-bold">{name}</div>

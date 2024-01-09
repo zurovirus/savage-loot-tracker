@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import useFetch from "../../hooks/useFetch";
 
@@ -18,7 +17,6 @@ export default function Tier() {
   return (
     <>
       <h1 className="text-center text-3xl p-4">All Raids</h1>
-
       {tiers.map(({ id, name, fights }) => (
         <div key={id} className="6">
           <p className="text-xl font-bold mb-4">{name}</p>

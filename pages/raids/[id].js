@@ -140,7 +140,7 @@ export default function RaidDetailsPage() {
           </div>
         </>
       )}
-      <h1 className=" text-center text-2xl p-6">{floorName}</h1>
+      <h1 className=" text-center text-2xl p-4">{floorName}</h1>
       <GroupComboBox onSelectChange={handleGroupChange} />
       {loots &&
         loots.map(({ name, id, image, typeId }) => (
@@ -194,7 +194,7 @@ export default function RaidDetailsPage() {
       {playerLoot.length > 0 && (
         <button
           onClick={handleUpdate}
-          className="flex mx-auto font-bold px-4 py-2 my-4 bg-yellow-600 hover:bg-yellow-700 hover:px-3 rounded-lg"
+          className="flex mx-auto font-bold px-4 py-2 my-4 text-black bg-yellow-600 hover:bg-yellow-700 hover:px-3 rounded-lg"
         >
           Update Loot
         </button>

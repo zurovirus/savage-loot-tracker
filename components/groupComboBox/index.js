@@ -1,5 +1,4 @@
 import useFetch from "@/hooks/useFetch";
-import { useState } from "react";
 import Link from "next/link";
 
 export default function GroupComboBox({ onSelectChange }) {
@@ -15,12 +14,11 @@ export default function GroupComboBox({ onSelectChange }) {
     return (
       <>
         {data.length === 0 ? (
-          <div>
-            <Link
-              className="text-center mb-2 hover:text-blue-300"
-              href="/groups"
-            >
-              No groups found, click here to create a group
+          <div className="mb-2">
+            <Link href="/groups">
+              <p className="w-fit mx-auto p-3 rounded-lg font-semibold text-blue-500 hover:text-blue-400">
+                No groups found, click here to add a group
+              </p>
             </Link>
           </div>
         ) : (

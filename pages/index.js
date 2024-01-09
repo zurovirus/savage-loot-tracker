@@ -1,8 +1,18 @@
-import Image from "next/image";
-import { Inter } from "next/font/google";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useSession } from "next-auth/react";
 
 export default function Home() {
-  return <p>Welcome to the FFXIV Savage Loot Tracker!</p>;
+  const { data: session } = useSession();
+
+  console.log(session);
+  return (
+    <>
+      <p>Welcome to the FFXIV Savage Loot Tracker!</p>
+      {!session && (
+        <p>
+          An account is needed to use this website, please sign in with your
+          discord to get started.
+        </p>
+      )}
+    </>
+  );
 }

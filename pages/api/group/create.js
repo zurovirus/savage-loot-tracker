@@ -6,6 +6,7 @@ export default async function handler(req, res) {
       const group = await prisma.group.create({
         data: {
           name: req.body.name,
+          users: { connect: { id: req.body.id } },
         },
       });
       return res.status(200).json(group);

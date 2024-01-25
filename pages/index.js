@@ -17,7 +17,7 @@ export default function Home() {
           <p className="text-yellow-500 font-bold">XIV Savage Loot Tracker</p>
         </div>
         <div className="text-2xl mb-6">
-          <p>Track your raid drops in one location</p>
+          <p>Track all your raid drops in one location</p>
         </div>
         <div>
           <img

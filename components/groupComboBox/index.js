@@ -8,6 +8,13 @@ export default function GroupComboBox({ onSelectChange }) {
     onSelectChange(e.target.value);
   };
 
+  if (data.error) {
+    return (
+      <p className="text-xl text-red-600 text-center mb-2">
+        Please sign in to track your drops
+      </p>
+    );
+  }
   if (isLoading) {
     return <p className="text-center mb-2">Loading groups...</p>;
   } else {

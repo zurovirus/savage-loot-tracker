@@ -24,8 +24,7 @@ export default function Tier() {
             {fights.map(({ id, name }) => (
               <div key={id} className="mx-auto">
                 <Link
-                  href="/raids/[slug]"
-                  as={`/raids/${id}`}
+                  href={`/raids/${id}`}
                   className="text-left p-2 rounded hover:bg-zinc-700"
                 >
                   {name}

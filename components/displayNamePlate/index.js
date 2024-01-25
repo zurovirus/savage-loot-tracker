@@ -5,9 +5,7 @@ export default function DisplayNamePlate({ name, classId, id, classes }) {
   return (
     <Link href={`/${name}/${id}`}>
       <div
-        className={`font-semibold rounded-md p-2 my-2 ${classColorText(
-          classId
-        )}`}
+        className={`font-semibold rounded-md p-2 ${classColorText(classId)}`}
       >
         {classes.map((job) => (
           <div

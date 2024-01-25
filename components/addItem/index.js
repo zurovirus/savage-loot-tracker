@@ -10,7 +10,7 @@ export default function AddItem({
     <>
       {!isCreating && (
         <button
-          className="btn btn-sm mx-6 bg-yellow-600 hover:bg-yellow-700 border-none"
+          className="btn btn-sm mx-6 bg-yellow-600 hover:bg-yellow-700 border-none font-bold"
           onClick={toggleCreate}
         >
           Add {dataName}

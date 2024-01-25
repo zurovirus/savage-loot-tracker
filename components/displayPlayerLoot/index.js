@@ -1,4 +1,4 @@
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns";
 
 export default function DisplayPlayerLoot({ playerloots, fightId }) {
   function groupLootByDate(playerLoot) {
@@ -23,9 +23,12 @@ export default function DisplayPlayerLoot({ playerloots, fightId }) {
         )
       ).map((date) => (
         <div key={date}>
-          <p className="mx-4 text-amber-400">{`Looted ${formatDistanceToNow(
+          <p className="mx-4 my-2 text-amber-400">{`Looted ${formatDistanceToNow(
             new Date(date)
           )} ago`}</p>
+          <p className="mx-4 text-amber-400 text-end">
+            {format(date, "MMMM dd, yyyy HH:mm:ss")}
+          </p>
           {groupLootByDate(
             playerloots.filter((loot) => loot.loot.fights[0].id === fightId)
           )[date].map(({ id, loot }) => (

@@ -5,11 +5,11 @@ import AddItem from "@/components/addItem";
 import useFetch from "../../hooks/useFetch";
 import DisplayPlayerLoot from "@/components/displayPlayerLoot";
 import DisplayNamePlate from "@/components/displayNamePlate";
-import Link from "next/link";
 
 export default function GroupDetailsPage() {
   const router = useRouter();
   const { id } = router.query;
+  const [groupName, setGroupName] = useState();
   const [players, setPlayers] = useState([]);
   const [classes, setClasses] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
@@ -29,6 +29,7 @@ export default function GroupDetailsPage() {
         },
       });
       const result = await data.json();
+      setGroupName(result.name);
       setPlayers(result.players);
     };
 
@@ -88,7 +89,7 @@ export default function GroupDetailsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl m-2 mb-4">Group Details</h1>
+      <h1 className="text-center text-2xl m-2 mb-4">Raid Group {groupName}</h1>
       {classes && isCreating && (
         <div className="flex items-center mx-6 my-4">
           <label className="text-lg">Class:</label>
@@ -116,20 +117,20 @@ export default function GroupDetailsPage() {
         isCreating={isCreating}
       />
       <div key={id} tabIndex={0} className="collapse my-4 z-10">
-        <div className="collapse-title text-xl font-bold">Players</div>
-        <input type="checkbox" defaultChecked />
+        <div className="collapse-title text-xl font-bold text-yellow-500">
+          Players
+        </div>
+        <input type="checkbox" defaultChecked={players.length != 8} />
         <div className="collapse-content">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-2">
             {players.length > 0 ? (
               players.map(({ name, id, classId }) => (
-                <Link key={id} className="" href={`/players/${id}`}>
-                  <DisplayNamePlate
-                    name={name}
-                    classes={classes}
-                    classId={classId}
-                    id={id}
-                  />
-                </Link>
+                <DisplayNamePlate
+                  name={name}
+                  classes={classes}
+                  classId={classId}
+                  id={id}
+                />
               ))
             ) : (
               <p>Empty in here...</p>
@@ -139,13 +140,15 @@ export default function GroupDetailsPage() {
       </div>
       {tierData.map(({ id, name, fights }) => (
         <div key={id} tabIndex={0} className="collapse my-4 z-5">
-          <div className="collapse-title text-xl font-bold">{name}</div>
+          <div className="collapse-title text-xl font-bold text-yellow-500">
+            {name}
+          </div>
           <input type="checkbox" />
           <div className="collapse-content">
             {fights.map((fight) => (
               <div key={fight.id} tabIndex={0} className="collapse my-4">
                 <input type="radio" name="my-accordion-1" />
-                <div className="collapse-title text-lg font-semibold">
+                <div className="collapse-title text-lg font-semibold text-purple-500">
                   {fight.name}
                 </div>
                 <div className="collapse-content">

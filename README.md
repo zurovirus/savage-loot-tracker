@@ -3,7 +3,7 @@ This application is still a work in progress, all images are not the final repre
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Setup
 
 Node v20.9.0 or later installed.
 
@@ -45,11 +45,16 @@ Create a group and add players to the group.
 
 You're ready to begin tracking!
 
-## Website Examples
+## Preview
+**Home Page**
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/5d7f8284-e804-458e-b68c-5b9775599cd6)
 
+**Selecting Loot**
+
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/83af67d4-0aa5-4ba4-ad81-6ab8bf6e1737)
+
+**Loot History**
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/ec4ee089-fbc5-4232-9da9-f2d87b081c84)
 

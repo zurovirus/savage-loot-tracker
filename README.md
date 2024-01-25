@@ -21,11 +21,20 @@ Create a .env file in the folder root and add your database to the variable DATA
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/463d709c-91bd-423e-a841-43706d89a197)
 
-Using the terminal, push the current database schema onto your database with `npx prisma db push`.
+Using the terminal, push the current database schema onto your database with 
+```
+npx prisma db push
+```
 
-Using the terminal, seed the database afterwards with `npx prisma db seed`.
+Using the terminal, seed the database afterwards with 
+```
+npx prisma db seed
+````
 
-Using the terminal, run the development server with `npm run dev`.
+Using the terminal, run the development server with 
+```
+npm run dev
+```
 
 Open http://localhost:3000/ in your browser.
 

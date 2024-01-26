@@ -48,7 +48,7 @@ You're ready to begin tracking!
 ## Preview
 **Home Page**
 
-![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/c9b9eaee-4394-41f4-ad4d-35549c543121)
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/5a1dc189-658c-421a-bb9a-6ac7cd55fd5c)
 
 **Selecting Loot**
 
@@ -56,6 +56,7 @@ You're ready to begin tracking!
 
 **Loot History**
 
-![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/ec4ee089-fbc5-4232-9da9-f2d87b081c84)
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/9f90db06-26ed-42bd-8517-dcb06844bd3c)
+
 
 

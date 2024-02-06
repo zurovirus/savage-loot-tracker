@@ -1,3 +1,4 @@
+// Reusable component that allows you to add items.
 export default function AddItem({
   submitHandler,
   dataRef,

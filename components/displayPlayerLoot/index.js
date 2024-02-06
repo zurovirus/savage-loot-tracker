@@ -1,6 +1,8 @@
 import { formatDistanceToNow, format } from "date-fns";
 
+// This component is responsible for displaying player's loot.
 export default function DisplayPlayerLoot({ playerloots, fightId }) {
+  // Groups the player's loot by date.
   function groupLootByDate(playerLoot) {
     const lootByDate = {};
 

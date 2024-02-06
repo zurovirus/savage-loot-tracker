@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
+// Helper method that grabs the user's session to be used server side.
 const authOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [

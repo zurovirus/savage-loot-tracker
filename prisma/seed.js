@@ -206,13 +206,15 @@ async function main() {
       37, 38, 39,
     ],
   ];
-
+  raidBanner = 25;
   for (let i = 0; i < data.Results.length; i++) {
     lootIds = lootArray[i];
+
     await prisma.fight.upsert({
       where: { name: data.Results[i].Name },
       update: {
         floor: i + 1,
+        image: `i/112000/1125${raidBanner}.png`,
         loots: {
           connect: lootIds.map((id) => ({ id })),
         },
@@ -221,11 +223,14 @@ async function main() {
         name: data.Results[i].Name,
         tierId: 1,
         floor: i + 1,
+        image: `i/112000/1125${raidBanner}.png`,
         loots: {
           connect: lootIds.map((id) => ({ id })),
         },
       },
     });
+
+    raidBanner += 2;
   }
 
   roleArray = ["Tank", "Healer", "DPS"];

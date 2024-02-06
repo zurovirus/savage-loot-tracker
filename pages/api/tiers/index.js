@@ -1,5 +1,6 @@
 import { prisma } from "@/components/lib/prisma";
 
+// Retrieves all the raid tiers.
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {

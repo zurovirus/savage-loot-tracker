@@ -1,8 +1,10 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 
+// Handles the user login
 export default function Login() {
   const { data: session } = useSession();
 
+  // If a session exists, Sign out button is displayed with the user's name and image.
   if (session) {
     return (
       <div className="flex items-center">
@@ -22,6 +24,7 @@ export default function Login() {
     );
   }
 
+  // If no session exists, return a sign in button.
   return (
     <>
       <button

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { classColorText } from "../lib/utility";
 
+// A reusable component that displays the user's name plate, class image, and class color.
 export default function DisplayNamePlate({ name, classId, id, classes }) {
   return (
     <Link href={`/${name}/${id}`}>

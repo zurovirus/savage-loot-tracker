@@ -1,5 +1,6 @@
 import { prisma } from "@/components/lib/prisma";
 
+// Associates a player with a loot.
 export default async function handler(req, res) {
   const data = req.body;
 

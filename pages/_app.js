@@ -3,6 +3,7 @@ import Nav from "@/components/nav";
 import Banner from "@/components/banner";
 import { SessionProvider } from "next-auth/react";
 
+// The application
 export default function App({
   Component,
   pageProps: { session, ...pageProps },

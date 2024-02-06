@@ -1,6 +1,7 @@
 import Link from "next/link";
 import useFetch from "../../hooks/useFetch";
 
+// Displays the all the raids in the game from patch 6.4 onwards.
 export default function Tier() {
   const { data: tiers, isLoading } = useFetch("/api/tiers");
 

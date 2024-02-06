@@ -3,6 +3,7 @@ import DiscordProvider from "next-auth/providers/discord";
 import { prisma } from "@/components/lib/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
+// Responsible for Oauth2 authentication.
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   providers: [

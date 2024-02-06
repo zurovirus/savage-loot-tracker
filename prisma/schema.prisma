@@ -89,6 +89,7 @@ model Fight {
   id        Int @id @default(autoincrement())
   name      String @unique
   floor     Int
+  image     String?
   tier      Tier @relation(fields: [tierId], references: [id])
   tierId    Int
   loots     Loot[]

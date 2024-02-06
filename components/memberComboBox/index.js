@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 
+// This component is responsible for displaying the group's members.
 export default function MembersComboBox({
   group,
   setSelectedPlayer,
@@ -9,6 +9,7 @@ export default function MembersComboBox({
 }) {
   const [players, setPlayers] = useState([]);
 
+  // Fetches the group's members from the database. Runs when the group data is changed.
   useEffect(() => {
     const fetchPlayers = async () => {
       const data = await fetch(`/api/group/${group}`, {
@@ -21,11 +22,13 @@ export default function MembersComboBox({
       setPlayers(result.players);
     };
 
+    // If group is populated, fetch the players.
     if (group) {
       fetchPlayers();
     }
   }, [group]);
 
+  // Handles the change event of the members combo box.
   const changeHandler = (e) => {
     setSelectedPlayer({
       lootId: item,
@@ -34,6 +37,7 @@ export default function MembersComboBox({
     });
   };
 
+  // The players combo box.
   return (
     <>
       {players.length !== 0 ? (

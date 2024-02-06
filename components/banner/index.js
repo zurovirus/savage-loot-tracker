@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+// The banner component at the top of the page.
 export default function Banner() {
   return (
     <Link href="/">

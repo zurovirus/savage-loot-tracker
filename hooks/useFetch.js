@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
+// Custom hook responsible for fetching basic data.
 export default function useFetch(url) {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);

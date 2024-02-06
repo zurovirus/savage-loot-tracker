@@ -1,5 +1,6 @@
 import { prisma } from "@/components/lib/prisma";
 
+// Creates the group data in the database.
 export default async function handler(req, res) {
   if (req.method === "POST") {
     try {

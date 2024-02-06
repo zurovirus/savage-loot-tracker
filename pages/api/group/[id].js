@@ -1,10 +1,12 @@
 import { prisma } from "@/components/lib/prisma";
 
+// Finds the group's players and their associated loot.
 export default async function handler(req, res) {
   if (req.method === "GET") {
     try {
       const groupId = parseInt(req.query.id);
 
+      // Searches for the group based of the id in the query.
       const group = await prisma.group.findFirst({
         where: { id: groupId },
         include: {

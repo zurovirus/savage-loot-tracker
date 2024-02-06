@@ -1,6 +1,7 @@
 import { prisma } from "@/components/lib/prisma";
 import { getSession } from "@/helper/getSession";
 
+// Retrieves the groups for a given user.
 export default async function handler(req, res) {
   const session = await getSession(req, res);
 

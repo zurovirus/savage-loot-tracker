@@ -2,8 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import MembersComboBox from "@/components/memberComboBox";
 import GroupComboBox from "@/components/groupComboBox";
 import useFetch from "../../hooks/useFetch";
-import Link from "next/link";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
+// The Raid Details Page.
 export default function RaidDetailsPage() {
   const [loots, setLoots] = useState([]);
   const [weapons, setWeapons] = useState([]);
@@ -16,7 +18,9 @@ export default function RaidDetailsPage() {
   const [errorMessage, setErrorMessage] = useState();
   const weaponRef = useRef(null);
   const { data, isLoading, id } = useFetch("/api/loot");
+  const { data: session } = useSession();
 
+  // If the page is loading and the data is empty, does nothing, otherwise filters the loot and weapons by fights. Filters out books drops.
   useEffect(() => {
     if (!isLoading && data.length > 0) {
       const filteredWeapons = data.filter((item) => item.typeId === 18);
@@ -32,6 +36,7 @@ export default function RaidDetailsPage() {
     }
   }, [isLoading, data, id]);
 
+  // Sets the floor id and the floor name.
   useEffect(() => {
     if (loots.length > 0) {
       setFloorName(loots[0].fights[0].name);
@@ -39,11 +44,13 @@ export default function RaidDetailsPage() {
     }
   }, [loots]);
 
+  // Handles the change event of the weapon combo box to display the chosen weapon.
   const handleWeaponBoxChange = () => {
     setDroppedWeapon(
       weapons.find((item) => item.id == weaponRef.current.value)
     );
 
+    // Swaps the weapon out when the user selects item in the combo box.
     if (droppedWeapon) {
       setPlayerLoot((prevItems) => {
         const updatedPlayerLoot = prevItems.filter(
@@ -54,19 +61,23 @@ export default function RaidDetailsPage() {
     }
   };
 
+  // Handles the change event of the player combo box.
   const handleSelectedPlayerChanged = (player) => {
     updatePlayerLoot(player);
   };
 
+  // Handles the change event of the group combo box.
   const handleGroupChange = (value) => {
     setSelectedGroup(value);
   };
 
+  // Handles the display of the status message.
   function messageHandler() {
     setSuccessMessage(null);
     setErrorMessage(null);
   }
 
+  // Updates the player loot to be sent to the database.
   const updatePlayerLoot = (item) => {
     setPlayerLoot((prevItems) => {
       const updatedPlayerLoot = prevItems.map((loot) => {
@@ -74,7 +85,7 @@ export default function RaidDetailsPage() {
           // Update the playerId for the matching item
           return { ...loot, lootId: item.lootId, playerId: item.playerId };
         }
-        return loot; // Leave other items unchanged
+        return loot;
       });
 
       // If the item was not found, add a new entry
@@ -92,7 +103,9 @@ export default function RaidDetailsPage() {
     });
   };
 
+  // Handles the update of the player's loot in the database.
   const handleUpdate = async () => {
+    // Modfies the player loot data to be sent.
     const dataToSend = playerLoot.map((loot) => {
       return { lootId: loot.lootId, playerId: loot.playerId };
     });
@@ -114,6 +127,7 @@ export default function RaidDetailsPage() {
 
   return (
     <>
+      {/* Displays the message of whether or not the player loot has been updated or if an error has occurred. */}
       {successMessage && (
         <>
           <div className="flex justify-between font-semibold mb-4 items-center bg-green-600 rounded-lg">
@@ -140,8 +154,27 @@ export default function RaidDetailsPage() {
           </div>
         </>
       )}
-      <h1 className=" text-center text-2xl p-4">{floorName}</h1>
+      {/* If there is no session display a message */}
+      {!session && (
+        <div className="flex justify-center items-center my-4 -mb-4">
+          <div class="chat chat-end">
+            <div className="chat-bubble text-white font-semibold w-96 text-center">
+              Sign in with Discord to track your loot!
+            </div>
+          </div>
+          <Image
+            src="/homepage/TalkingZuro.png"
+            alt="Talking Zuro"
+            width={150}
+            height={75}
+            className="rounded-full mx-2"
+          />
+        </div>
+      )}
+      <h1 className="text-center text-2xl p-4">{floorName}</h1>
+      {/* The group combo box */}
       <GroupComboBox onSelectChange={handleGroupChange} />
+      {/* Maps through the loot and adds a combo box to select a player to associate the loot with. */}
       {loots &&
         loots.map(({ name, id, image, typeId }) => (
           <div key={id} className="flex justify-center">
@@ -157,6 +190,7 @@ export default function RaidDetailsPage() {
             />
           </div>
         ))}
+      {/* If the fight is the 4th fight of the tier, adds the weapon box */}
       {floorId && floorId == 4 && (
         <>
           {droppedWeapon && (
@@ -191,6 +225,7 @@ export default function RaidDetailsPage() {
           </div>
         </>
       )}
+      {/* Allows the player to update the loot if a player was selected to be associated. */}
       {playerLoot.length > 0 && (
         <button
           onClick={handleUpdate}

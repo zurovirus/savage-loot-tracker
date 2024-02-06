@@ -1,20 +1,21 @@
 import useFetch from "@/hooks/useFetch";
 import Link from "next/link";
 
+// This reusable component is responsible for displaying groups.
 export default function GroupComboBox({ onSelectChange }) {
   const { data, isLoading } = useFetch("/api/group");
 
+  // Handles the change event of the combo box
   const handleSelectChange = (e) => {
     onSelectChange(e.target.value);
   };
 
+  // If an error exists, return nothing
   if (data.error) {
-    return (
-      <p className="text-xl text-red-600 text-center mb-2">
-        Please sign in to track your drops
-      </p>
-    );
+    return;
   }
+
+  // If the page is loading, display a message, else display the group data.
   if (isLoading) {
     return <p className="text-center mb-2">Loading groups...</p>;
   } else {

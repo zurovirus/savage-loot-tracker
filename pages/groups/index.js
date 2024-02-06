@@ -6,6 +6,7 @@ import { removeSpecialCharacters } from "@/components/lib/utility";
 import Authenticate from "@/components/authenticate";
 import { useSession } from "next-auth/react";
 
+// The Group page.
 export default function Groups() {
   Authenticate();
   const { data: session } = useSession();
@@ -15,22 +16,28 @@ export default function Groups() {
   const [error, setError] = useState(null);
   const groupName = useRef("");
 
+  // Sets the group
   useEffect(() => {
     setGroups(data);
   }, [data]);
 
+  // Handles the toggle event of the add group button.
   const toggleCreate = () => {
     setIsCreating((prevState) => !prevState);
     setError(null);
   };
 
+  // Handles the submit event of the add group button.
   const submitHandler = async () => {
+    // Cleans the string of the user input.
     const cleanedName = removeSpecialCharacters(groupName.current.value);
 
+    // Searches if the group name is already existing.
     const nameAvailability = groups.find(
       (group) => group.name === cleanedName.trim()
     );
 
+    // If the group name exists, adds an error message.
     if (nameAvailability) {
       setError("A group with that name already exists");
       groupName.current.focus();
@@ -38,12 +45,15 @@ export default function Groups() {
       return;
     }
 
+    // If the name is empty, adds an error message.
     if (cleanedName.trim().length === 0 && cleanedName.trim() == "") {
       setError("Please enter a valid group name");
       groupName.current.focus();
       groupName.current.select();
       return;
     }
+
+    // Creates the group in the database.
     try {
       const res = await fetch("/api/group/create", {
         method: "POST",
@@ -56,6 +66,7 @@ export default function Groups() {
         }),
       });
 
+      // If the response is successful, adds the group to the list.
       if (res.ok) {
         const group = await res.json();
         setGroups((prevGroups) => [
@@ -69,10 +80,11 @@ export default function Groups() {
     }
   };
 
+  // The data to be displayed/
   return (
     <>
       <div>
-        <h1 className="text-2xl m-2 mb-4">My groups</h1>
+        <h1 className="text-2xl text-center m-4">My Raid Groups</h1>
         <AddItem
           submitHandler={submitHandler}
           dataName={"groups"}
@@ -82,17 +94,19 @@ export default function Groups() {
           toggleCreate={toggleCreate}
           isCreating={isCreating}
         />
-        {groups &&
-          groups.map(({ name, id }) => (
-            <div key={id} className="my-2">
-              <Link
-                href={`/groups/${id}`}
-                className="mx-6 font-semibold text-xl text-blue-600 hover:text-blue-700"
-              >
-                {name}
-              </Link>
-            </div>
-          ))}
+        <div className="grid grid-cols-3 my-6 text-center">
+          {groups &&
+            groups.map(({ name, id }) => (
+              <div key={id} className="my-2">
+                <Link
+                  href={`/groups/${id}`}
+                  className="mx-6 font-semibold text-xl text-blue-600 hover:text-blue-700"
+                >
+                  {name}
+                </Link>
+              </div>
+            ))}
+        </div>
       </div>
     </>
   );

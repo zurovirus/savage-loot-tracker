@@ -22,7 +22,7 @@ Create a .env file in the folder root and add your database to the variable DATA
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/d79b2f1a-b69c-4328-ac01-e4823976d1c0)
 
-![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/b692f28f-0a1d-4309-99a7-d6baddefbd73)
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/4834e2b5-67d1-4b12-b96f-bf4c502226da)
 
 Using the terminal, push the current database schema onto your database with `npm prisma db push`.
 ```

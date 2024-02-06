@@ -18,7 +18,7 @@ In the terminal, do a `npm install` to install all dependencies.
 npm install
 ```
 
-Create a .env file in the folder root and add your database to the variable DATABASE_URL, your Discord Client Id and Discord Client Secret as seen below.
+Create a .env file in the folder root and add your database to the variable DATABASE_URL, your Discord Client Id, and Discord Client Secret as seen below.
 
 ![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/d79b2f1a-b69c-4328-ac01-e4823976d1c0)
 

@@ -51,7 +51,7 @@ export default function Nav() {
             href="/tiers"
           >
             Track Current Tier
-            <ul className="dropdown-content menu shadow rounded-md bg-stone-900 w-72 z-10">
+            <ul className="dropdown-content menu shadow rounded-md bg-stone-900 w-72 relative z-50">
               {data.map(({ fights }) =>
                 fights.map(
                   ({ name: fight, id }) =>

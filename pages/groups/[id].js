@@ -127,7 +127,9 @@ export default function GroupDetailsPage() {
   return (
     <>
       {isLoading ? (
-        <p>Loading page...</p>
+        <div className="flex justify-center min-h-screen ">
+          <p className="loading loading-spinner loading-lg " />
+        </div>
       ) : (
         <div>
           <MessageBox

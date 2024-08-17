@@ -17,7 +17,11 @@ export default function GroupComboBox({ onSelectChange }) {
 
   // If the page is loading, display a message, else display the group data.
   if (isLoading) {
-    return <p className="text-center m-2">Loading groups...</p>;
+    return (
+      <div className="flex justify-center min-h-screen ">
+        <p className="loading loading-spinner loading-lg " />
+      </div>
+    );
   } else {
     return (
       <>

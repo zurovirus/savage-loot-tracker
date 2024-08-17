@@ -84,9 +84,9 @@ export default function Groups() {
   return (
     <>
       {isLoading ? (
-        <>
-          <p className="text-center m-5">Loading page</p>
-        </>
+        <div className="flex justify-center min-h-screen ">
+          <p className="loading loading-spinner loading-lg " />
+        </div>
       ) : (
         <div>
           <h1 className="text-2xl text-center m-4">My Raid Groups</h1>

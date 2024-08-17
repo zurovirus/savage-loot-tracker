@@ -7,9 +7,9 @@ export default function Tier() {
 
   if (isLoading) {
     return (
-      <>
-        <p className="text-center m-5">Loading Raid Tiers...</p>
-      </>
+      <div className="flex justify-center min-h-screen ">
+        <p className="loading loading-spinner loading-lg " />
+      </div>
     );
   }
 

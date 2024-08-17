@@ -1,6 +1,6 @@
 import useFetch from "../../hooks/useFetch";
 import { useState, useRef, useEffect } from "react";
-import Link from "next/link";
+import GroupCard from "@/components/groupCard";
 import AddItem from "@/components/addItem";
 import { removeSpecialCharacters } from "@/components/lib/utility";
 import Authenticate from "@/components/authenticate";
@@ -94,16 +94,19 @@ export default function Groups() {
           toggleCreate={toggleCreate}
           isCreating={isCreating}
         />
-        <div className="grid grid-cols-3 my-6 text-center">
+        <div className="grid grid-cols-3 gap-5 my-6">
           {groups &&
             groups.map(({ name, id }) => (
-              <div key={id} className="my-2">
-                <Link
-                  href={`/groups/${id}`}
-                  className="mx-6 font-semibold text-xl text-blue-600 hover:text-blue-700"
-                >
-                  {name}
-                </Link>
+              <div
+                key={id}
+                className="my-2 border-2 rounded-xl py-2 px-4 border-stone-900 bg-gradient-to-br from-stone-950  to-slate-800 shadow-lg shadow-zinc-900"
+              >
+                <GroupCard
+                  id={id}
+                  name={name}
+                  groups={groups}
+                  setGroups={setGroups}
+                />
               </div>
             ))}
         </div>

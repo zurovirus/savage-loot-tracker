@@ -46,7 +46,7 @@ export default function MembersComboBox({
           <div className="">
             <select
               onChange={changeHandler}
-              className="select select-sm rounded-md w-auto text-black"
+              className="select select-sm rounded-md w-auto text-black bg-white"
             >
               <option hidden value="">
                 Select a player

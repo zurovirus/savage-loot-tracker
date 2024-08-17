@@ -10,7 +10,7 @@ export default function Home() {
       {/* Displays a message if a session does not exist. */}
       {!session && (
         <div className="flex justify-center items-start my-4 -mb-4">
-          <div class="chat chat-end">
+          <div className="chat chat-end">
             <div className="chat-bubble text-white font-semibold w-96 text-center">
               An account is needed to use this website.
               <br />

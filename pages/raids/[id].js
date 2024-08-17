@@ -4,6 +4,7 @@ import GroupComboBox from "@/components/groupComboBox";
 import useFetch from "../../hooks/useFetch";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import MessageBox from "@/components/messageBox";
 
 // The Raid Details Page.
 export default function RaidDetailsPage() {
@@ -23,7 +24,9 @@ export default function RaidDetailsPage() {
   // If the page is loading and the data is empty, does nothing, otherwise filters the loot and weapons by fights. Filters out books drops.
   useEffect(() => {
     if (!isLoading && data.length > 0) {
-      const filteredWeapons = data.filter((item) => item.typeId === 18);
+      const filteredWeapons = data.filter((item) =>
+        item.fights.some((fight) => fight.id == id && item.typeId === 18)
+      );
       const filteredLoot = data.filter((item) =>
         item.fights.some(
           (fight) => fight.id == id && item.typeId != 1 && item.typeId != 18
@@ -71,7 +74,7 @@ export default function RaidDetailsPage() {
     setSelectedGroup(value);
   };
 
-  // Handles the display of the status message.
+  // Resets the message box.
   function messageHandler() {
     setSuccessMessage(null);
     setErrorMessage(null);
@@ -128,32 +131,11 @@ export default function RaidDetailsPage() {
   return (
     <>
       {/* Displays the message of whether or not the player loot has been updated or if an error has occurred. */}
-      {successMessage && (
-        <>
-          <div className="flex justify-between font-semibold mb-4 items-center bg-green-600 rounded-lg">
-            <p className="mx-auto">{successMessage}</p>
-            <button
-              onClick={messageHandler}
-              className="mx-3 font-bold -mt-1 text-center hover:text-black hover:font-bold"
-            >
-              x
-            </button>
-          </div>
-        </>
-      )}
-      {errorMessage && (
-        <>
-          <div className="flex justify-between font-semibold mb-4 items-center bg-red-600 rounded-lg">
-            <p className="mx-auto">{errorMessage}</p>
-            <button
-              onClick={messageHandler}
-              className="mx-3 font-bold -mt-1 text-center hover:text-black hover:font-bold"
-            >
-              x
-            </button>
-          </div>
-        </>
-      )}
+      <MessageBox
+        errorMessage={errorMessage}
+        successMessage={successMessage}
+        messageHandler={messageHandler}
+      />
       {/* If there is no session display a message */}
       {!session && (
         <div className="flex justify-center items-center my-4 -mb-4">
@@ -210,7 +192,7 @@ export default function RaidDetailsPage() {
           <div className="text-center">
             <select
               ref={weaponRef}
-              className="select select-bordered rounded-md select-sm my-2 text-black"
+              className="select select-bordered rounded-md select-sm my-2 text-black bg-white"
               onChange={handleWeaponBoxChange}
             >
               <option hidden value="">

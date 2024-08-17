@@ -9,15 +9,14 @@ export default function AddItem({
 }) {
   return (
     <>
-      {!isCreating && (
+      {!isCreating ? (
         <button
-          className="btn btn-sm mx-6 bg-yellow-600 hover:bg-yellow-700 border-none font-bold"
+          className="btn btn-sm mx-6 text-white bg-yellow-600 hover:bg-yellow-700 border-none font-bold"
           onClick={toggleCreate}
         >
           Add {dataName}
         </button>
-      )}
-      {isCreating && (
+      ) : (
         <div className="flex">
           <label className="mx-6 text-lg">Name:</label>
           <input

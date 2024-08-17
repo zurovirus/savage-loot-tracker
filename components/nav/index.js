@@ -53,16 +53,19 @@ export default function Nav() {
             Track Current Tier
             <ul className="dropdown-content menu shadow rounded-md bg-stone-900 w-72 z-10">
               {data.map(({ fights }) =>
-                fights.map(({ name: fight, id }) => (
-                  <li key={id} onClick={handleClick}>
-                    <Link
-                      className="p-2 text-gray-400 hover:bg-gray-700 border-none rounded-md focus:outline-none focus:ring-white focus:ring-1"
-                      href={`/raids/${id}`}
-                    >
-                      <p className="text-gray-400">{fight}</p>
-                    </Link>
-                  </li>
-                ))
+                fights.map(
+                  ({ name: fight, id }) =>
+                    id > 4 && (
+                      <li key={id} onClick={handleClick}>
+                        <Link
+                          className="p-2 text-gray-400 hover:bg-gray-700 border-none rounded-md focus:outline-none focus:ring-white focus:ring-1"
+                          href={`/raids/${id}`}
+                        >
+                          <p className="text-gray-400">{fight}</p>
+                        </Link>
+                      </li>
+                    )
+                )
               )}
             </ul>
           </label>

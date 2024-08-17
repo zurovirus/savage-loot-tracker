@@ -128,38 +128,39 @@ async function main() {
       name: "Weapon (Specific)",
     },
   });
-  response = await fetch("https://xivapi.com/Item?page=404");
-  data = await response.json();
-  for (let i = 2; i < data.Results.length; i++) {
-    if (data.Results[i].ID > 40302 && data.Results[i].ID < 40307) {
-      await prisma.loot.upsert({
-        where: { name: data.Results[i].Name },
-        update: {},
-        create: {
-          name: data.Results[i].Name,
-          image: data.Results[i].Icon,
-          typeId: 1,
-        },
-      });
-    }
-    if (data.Results[i].ID > 40306 && data.Results[i].ID < 40322) {
-      await prisma.loot.upsert({
-        where: { name: data.Results[i].Name },
-        update: {},
-        create: {
-          name: data.Results[i].Name,
-          image: data.Results[i].Icon,
-          typeId: i - 4,
-        },
-      });
-    }
-  }
+  // response = await fetch("https://xivapi.com/item?page=436");
+  // data = await response.json();
+  // for (let i = 2; i < data.Results.length; i++) {
+  //   if (data.Results[i].ID > 43548 && data.Results[i].ID < 43553) {
+  //     await prisma.loot.upsert({
+  //       where: { name: data.Results[i].Name },
+  //       update: {},
+  //       create: {
+  //         name: data.Results[i].Name,
+  //         image: data.Results[i].Icon,
+  //         typeId: 1,
+  //       },
+  //     });
+  //   }
 
-  response = await fetch("https://xivapi.com/Item?page=402");
+  //   if (data.Results[i].ID > 43526 && data.Results[i].ID < 43537) {
+  //     await prisma.loot.upsert({
+  //       where: { name: data.Results[i].Name },
+  //       update: {},
+  //       create: {
+  //         name: data.Results[i].Name,
+  //         image: data.Results[i].Icon,
+  //         typeId: i - 4,
+  //       },
+  //     });
+  //   }
+  // }
+
+  response = await fetch("https://xivapi.com/item?page=432");
   data = await response.json();
 
   for (let i = 0; i < data.Results.length; i++) {
-    if (data.Results[i].ID > 40164 && data.Results[i].ID < 40184) {
+    if (data.Results[i].ID > 43100 && data.Results[i].ID < 43122) {
       await prisma.loot.upsert({
         where: { name: data.Results[i].Name },
         update: { typeId: 18 },
@@ -173,65 +174,67 @@ async function main() {
   }
 
   await prisma.loot.upsert({
-    where: { name: "Megaloambystoma Horn" },
-    update: { image: "/i/026000/026038.png" },
+    where: { name: "Monowheel S1 Identification Key" },
+    update: { image: "/i/026000/026014.png" },
     create: {
-      name: "Megaloambystoma Horn",
-      image: "/i/026000/026038.png",
+      name: "Monowheel S1 Identification Key",
+      image: "/i/026000/026014.png",
       typeId: 17,
     },
   });
   await prisma.tier.upsert({
-    where: { name: "Pandæmonium: Anabaseios Savage (P9S-P12S)" },
-    update: { name: "Pandæmonium: Anabaseios Savage (P9S-P12S)" },
+    where: { name: "AAC Light-Heavyweight (M1S-M4S)" },
+    update: { name: "AAC Light-Heavyweight (M1S-M4S)" },
     create: {
-      name: "Pandæmonium: Anabaseios Savage (P9S-P12S)",
+      name: "AAC Light-Heavyweight (M1S-M4S)",
     },
   });
 
-  searchString = "Anabaseios: * (Savage)";
-  searchQuery = `https://xivapi.com/search?string=${encodeURIComponent(
-    searchString
-  )}&string_algo=wildcard`;
+  // searchString = "AAC * (Savage)";
+  // searchQuery = `https://xivapi.com/search?string=${encodeURIComponent(
+  //   searchString
+  // )}&string_algo=wildcard`;
 
-  response = await fetch(searchQuery);
-  data = await response.json();
+  // response = await fetch(searchQuery);
+  // data = await response.json();
 
-  lootArray = [
-    [11, 12, 13, 14, 1],
-    [6, 8, 10, 18, 19, 2],
-    [7, 9, 16, 17, 3],
-    [
-      5, 4, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
-      37, 38, 39,
-    ],
-  ];
-  raidBanner = 25;
-  for (let i = 0; i < data.Results.length; i++) {
-    lootIds = lootArray[i];
+  // lootArray = [
+  //   [11, 12, 13, 14, 1],
+  //   [6, 8, 10, 18, 19, 2],
+  //   [7, 9, 16, 17, 3],
+  //   [
+  //     5, 4, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
+  //     37, 38, 39,
+  //   ],
+  // ];
 
-    await prisma.fight.upsert({
-      where: { name: data.Results[i].Name },
-      update: {
-        floor: i + 1,
-        image: `i/112000/1125${raidBanner}.png`,
-        loots: {
-          connect: lootIds.map((id) => ({ id })),
-        },
-      },
-      create: {
-        name: data.Results[i].Name,
-        tierId: 1,
-        floor: i + 1,
-        image: `i/112000/1125${raidBanner}.png`,
-        loots: {
-          connect: lootIds.map((id) => ({ id })),
-        },
-      },
-    });
+  // raidBanner = 25;
 
-    raidBanner += 2;
-  }
+  // for (let i = 0; i < data.Results.length; i++) {
+  //   lootIds = lootArray[i];
+
+  //   await prisma.fight.upsert({
+  //     where: { name: data.Results[i].Name },
+  //     update: {
+  //       floor: i + 1,
+  //       image: `i/112000/1125${raidBanner}.png`,
+  //       loots: {
+  //         connect: lootIds.map((id) => ({ id })),
+  //       },
+  //     },
+  //     create: {
+  //       name: data.Results[i].Name,
+  //       tierId: 1,
+  //       floor: i + 1,
+  //       image: `i/112000/1125${raidBanner}.png`,
+  //       loots: {
+  //         connect: lootIds.map((id) => ({ id })),
+  //       },
+  //     },
+  //   });
+
+  //   raidBanner += 2;
+  // }
 
   roleArray = ["Tank", "Healer", "DPS"];
   for (let i = 0; i < roleArray.length; i++) {
@@ -269,6 +272,8 @@ async function main() {
     { name: "Black Mage", role: 3 },
     { name: "Summoner", role: 3 },
     { name: "Red Mage", role: 3 },
+    { name: "Viper", role: 3 },
+    { name: "Pictomancer", role: 3 },
   ];
 
   for (let i = 0; i < tanks.length; i++) {

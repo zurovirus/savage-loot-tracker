@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import { removeSpecialCharacters } from "@/components/lib/utility";
+import MessageBox from "@/components/messageBox";
 import AddItem from "@/components/addItem";
 import useFetch from "../../hooks/useFetch";
 import DisplayPlayerLoot from "@/components/displayPlayerLoot";
@@ -14,7 +15,11 @@ export default function GroupDetailsPage() {
   const [players, setPlayers] = useState([]);
   const [classes, setClasses] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(null);
+  const [nameError, setNameError] = useState(null);
+  const [classError, setClassError] = useState(null);
   const playerName = useRef("");
   const chosenClass = useRef("");
   const { data } = useFetch(`/api/class`);
@@ -51,19 +56,34 @@ export default function GroupDetailsPage() {
     setError(null);
   };
 
+  function toggleDelete() {
+    setIsDeleting((prevState) => !prevState);
+  }
+
+  function messageHandler() {
+    setError(null);
+    setSuccess(null);
+  }
+
   // Creates a player
   const submitHandler = async () => {
     // Cleans the name, to prevent SQL injection.
     const cleanedName = removeSpecialCharacters(playerName.current.value);
 
+    console.log(chosenClass.current.value);
     // Checks if the cleaned name is not empty.
     if (cleanedName.trim().length === 0 && cleanedName.trim() == "") {
-      setError("Please enter a valid player name");
+      setNameError("Please enter a valid player name");
       playerName.current.focus();
       playerName.current.select();
       return;
     }
 
+    if (chosenClass.current.value === "") {
+      setClassError("Please select a class");
+      chosenClass.current.focus();
+      return;
+    }
     // Updates the database.
     try {
       const res = await fetch("/api/player/create", {
@@ -91,18 +111,27 @@ export default function GroupDetailsPage() {
           },
         ]);
         toggleCreate();
+        setSuccess(`Player ${player.name} has been added to the group`);
+      } else {
+        setError("Something went wrong, please try again.");
       }
     } catch (error) {
       setError(error.message);
     }
   };
 
+  async function deleteHandler() {}
+
   // Main container for the component's UI
   return (
     <div>
+      <MessageBox
+        errorMessage={error}
+        successMessage={success}
+        messageHandler={messageHandler}
+      />
       {/* Heading displaying the name of the raid group */}
       <h1 className="text-center text-2xl m-4">Raid Group {groupName}</h1>
-
       {/* Conditional rendering to show a class selection dropdown if `classes` data is available and creation mode is enabled */}
       {classes && isCreating && (
         <div className="flex items-center mx-6 my-4">
@@ -121,6 +150,7 @@ export default function GroupDetailsPage() {
               </option>
             ))}
           </select>
+          {classError && <label className="text-red-700">{classError} </label>}
         </div>
       )}
 
@@ -129,7 +159,7 @@ export default function GroupDetailsPage() {
         submitHandler={submitHandler}
         dataName={"players"}
         dataRef={playerName}
-        error={error}
+        error={nameError}
         toggleCreate={toggleCreate}
         isCreating={isCreating}
       />
@@ -139,23 +169,30 @@ export default function GroupDetailsPage() {
         <div className="collapse-title text-xl font-bold text-yellow-500">
           Players
         </div>
-        <input type="checkbox" defaultChecked={players.length != 8} />
+        <input type="checkbox" defaultChecked />
         <div className="collapse-content">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mx-2">
             {/* Conditional rendering to display players if available or a placeholder message */}
             {players.length > 0 ? (
               players.map(({ name, id, classId }) => (
-                <DisplayNamePlate
-                  name={name}
-                  classes={classes}
-                  classId={classId}
-                  id={id}
-                />
+                <div key={id}>
+                  <DisplayNamePlate
+                    name={name}
+                    classes={classes}
+                    classId={classId}
+                    id={id}
+                    deleteHandler={deleteHandler}
+                    isDeleting={isDeleting}
+                  />
+                </div>
               ))
             ) : (
               <p>Empty in here...</p>
             )}
           </div>
+          <button className="m-2" onClick={toggleDelete}>
+            Boot player
+          </button>
         </div>
       </div>
 

@@ -33,7 +33,7 @@ export default function GroupComboBox({ onSelectChange }) {
           <div className="text-center mb-2">
             <select
               onChange={handleSelectChange}
-              className="select select-bordered rounded-md w-auto select-sm text-black"
+              className="select select-bordered rounded-md w-auto select-sm text-black bg-white"
             >
               <option hidden value="">
                 Select a group

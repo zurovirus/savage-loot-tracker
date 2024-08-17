@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlserver"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
 }
 
 model Account {
@@ -55,12 +55,13 @@ model Player{
   class     Class @relation(fields: [classId], references: [id])
   classId   Int
   loots     PlayerLoot[]
-  groups    Group[]
+  group     Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId   Int
 }
 
 model Group{
   id        Int @id @default(autoincrement())
-  name      String @unique
+  name      String
   players   Player[]
   users     User[]
 }
@@ -113,7 +114,7 @@ model Loot {
 
 model PlayerLoot {
   id        Int @id @default(autoincrement())
-  player    Player @relation(fields: [playerId], references: [id])
+  player    Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
   playerId  Int
   loot      Loot @relation(fields: [lootId], references: [id])
   lootId    Int

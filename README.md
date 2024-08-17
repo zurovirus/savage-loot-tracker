@@ -1,40 +1,62 @@
+## Notes
+This application is still a work in progress, all images are not the final representation of the application. Thanks!
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Setup
 
-First, run the development server:
+Node v20.9.0 or later installed.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm v10.2.3 or later installed.
+
+The Node installer comes with npm, you can download the latest version [here.](https://nodejs.org/en/download/)
+
+After cloning the directory, navigate to the folder with your chosen IDE.
+
+In the terminal, do a `npm install` to install all dependencies.
+```
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a .env file in the folder root and add your database to the variable DATABASE_URL, your Discord Client Id, and Discord Client Secret as seen below.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/d79b2f1a-b69c-4328-ac01-e4823976d1c0)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/4834e2b5-67d1-4b12-b96f-bf4c502226da)
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Using the terminal, push the current database schema onto your database with `npm prisma db push`.
+```
+npx prisma db push
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Using the terminal, seed the database afterwards with `npm prisma db seed`.
+```
+npx prisma db seed
+````
 
-## Learn More
+Using the terminal, run the development server with `npm run dev`.
+```
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Open http://localhost:3000/ in your browser.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Create a group and add players to the group.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+You're ready to begin tracking!
 
-## Deploy on Vercel
+## Preview
+**Home Page**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/5a1dc189-658c-421a-bb9a-6ac7cd55fd5c)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+**Selecting Loot**
+
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/83af67d4-0aa5-4ba4-ad81-6ab8bf6e1737)
+
+**Loot History**
+
+![image](https://github.com/zurovirus/savage-loot-tracker/assets/128162169/9f90db06-26ed-42bd-8517-dcb06844bd3c)
+
+
+

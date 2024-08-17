@@ -17,7 +17,7 @@ export default function GroupComboBox({ onSelectChange }) {
 
   // If the page is loading, display a message, else display the group data.
   if (isLoading) {
-    return <p className="text-center mb-2">Loading groups...</p>;
+    return <p className="text-center m-2">Loading groups...</p>;
   } else {
     return (
       <>

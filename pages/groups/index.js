@@ -10,7 +10,7 @@ import { useSession } from "next-auth/react";
 export default function Groups() {
   Authenticate();
   const { data: session } = useSession();
-  const { data } = useFetch("/api/group");
+  const { data, isLoading } = useFetch("/api/group");
   const [groups, setGroups] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
   const [error, setError] = useState(null);
@@ -83,34 +83,35 @@ export default function Groups() {
   // The data to be displayed/
   return (
     <>
-      <div>
-        <h1 className="text-2xl text-center m-4">My Raid Groups</h1>
-        <AddItem
-          submitHandler={submitHandler}
-          dataName={"groups"}
-          dataRef={groupName}
-          data={groups}
-          error={error}
-          toggleCreate={toggleCreate}
-          isCreating={isCreating}
-        />
-        <div className="grid grid-cols-3 gap-5 my-6">
-          {groups &&
-            groups.map(({ name, id }) => (
-              <div
-                key={id}
-                className="my-2 border-2 rounded-xl py-2 px-4 border-stone-900 bg-gradient-to-br from-stone-950  to-slate-800 shadow-lg shadow-zinc-900"
-              >
+      {isLoading ? (
+        <>
+          <p className="text-center m-5">Loading page</p>
+        </>
+      ) : (
+        <div>
+          <h1 className="text-2xl text-center m-4">My Raid Groups</h1>
+          <AddItem
+            submitHandler={submitHandler}
+            dataName={"groups"}
+            dataRef={groupName}
+            data={groups}
+            error={error}
+            toggleCreate={toggleCreate}
+            isCreating={isCreating}
+          />
+          <div className="grid grid-cols-3 gap-5 my-6">
+            {groups &&
+              groups.map(({ name, id }) => (
                 <GroupCard
                   id={id}
                   name={name}
                   groups={groups}
                   setGroups={setGroups}
                 />
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

@@ -8,9 +8,7 @@ export default function Tier() {
   if (isLoading) {
     return (
       <>
-        <div className="flex justify-center p-4">
-          <p className="text-2xl mx-2 my-5">Loading Raid Tiers...</p>
-        </div>
+        <p className="text-center m-5">Loading Raid Tiers...</p>
       </>
     );
   }
@@ -23,7 +21,7 @@ export default function Tier() {
           <p className="text-xl font-bold mb-4">{name}</p>
           <div className="flex">
             {fights.map(({ id, name }) => (
-              <div key={id} className="mx-auto">
+              <div key={id} className="mx-auto pb-5">
                 <Link
                   href={`/raids/${id}`}
                   className="text-left p-2 rounded hover:bg-zinc-700"

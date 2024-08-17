@@ -70,13 +70,18 @@ export default function Nav() {
             </ul>
           </label>
           {/* Another dropdown for raids, also populated with data */}
-          <label
+          {/* <label
             tabIndex={0}
             className="py-2 px-4 mx-1 dropdown dropdown-hover text-gray-400 my-auto rounded-md"
             href="/tiers"
+          > */}
+          <Link
+            className="py-2 px-4 mx-2 text-gray-400 transition delay-100 ease-in-out hover:bg-gray-700 rounded-md"
+            href="/tiers"
           >
             Raids
-            <ul
+          </Link>
+          {/* <ul
               tabIndex={0}
               className="dropdown-content z-10 menu shadow rounded-md bg-stone-900 w-56"
             >
@@ -90,8 +95,8 @@ export default function Nav() {
                   </Link>
                 </li>
               ))}
-            </ul>
-          </label>
+            </ul> */}
+          {/* </label> */}
         </div>
         {/* Container for login/logout components, conditionally rendered based on session state */}
         <div className="flex mx-8 text-white">
